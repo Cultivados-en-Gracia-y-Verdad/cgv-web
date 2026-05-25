@@ -1,0 +1,41 @@
+<footer id="footer">
+  <div class="container cgv-footer-grid">
+
+    <div class="cgv-footer-col">
+      <h4>CGV</h4>
+      {{ .Site.Params.about_us | safeHTML }}
+    </div>
+
+    <div class="cgv-footer-col">
+      <h4>Explorar</h4>
+      <ul class="cgv-footer-links">
+        <li><a href="/nosotros/">¿Qué es CGV?</a></li>
+        <li><a href="/curriculo/">Camino de Formación</a></li>
+        <li><a href="/courses/">Materiales</a></li>
+        <li><a href="/centros/">Centros de Capacitación</a></li>
+        <li><a href="/ROOTS/">ROOTS</a></li>
+      </ul>
+    </div>
+
+    <div class="cgv-footer-col">
+      <h4>Contacto</h4>
+      <p>
+        Para preguntas generales, materiales o implementación de un Centro de Capacitación.
+      </p>
+      <p>
+        <a href="mailto:info@discipuladocgv.org">info@discipuladocgv.org</a><br>
+        <a href="tel:+59164908144">+591 6 4908144</a>
+      </p>
+      <a href="/contacto/" class="btn btn-small btn-template-main">Contactar a CGV</a>
+    </div>
+
+  </div>
+</footer>
+
+<div id="copyright">
+  <div class="container">
+    <div class="col-md-12">
+      <p>{{ .Site.Params.copyright | safeHTML }}</p>
+    </div>
+  </div>
+</div>

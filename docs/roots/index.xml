@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Roots on CGV</title>
+    <link>http://localhost:1313/roots/</link>
+    <description>Recent content in Roots on CGV</description>
+    <generator>Hugo</generator>
+    <language>es</language>
+    <lastBuildDate>Tue, 21 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/roots/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ROOTS Verb &#43; Connector Alignment Specification</title>
+      <link>http://localhost:1313/roots/readme_old/</link>
+      <pubDate>Tue, 21 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/roots/readme_old/</guid>
+      <description>&lt;h1 id=&#34;roots-verb--connector-alignment-specification&#34;&gt;ROOTS VERB + CONNECTOR ALIGNMENT SPECIFICATION&lt;/h1&gt;&#xA;&lt;p&gt;(SBLGNT + RMAC + NBLA)&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;purpose&#34;&gt;PURPOSE&lt;/h2&gt;&#xA;&lt;p&gt;This document defines the rules for creating a &lt;strong&gt;fully consistent, auditable dataset&lt;/strong&gt; that maps:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Greek text (&lt;strong&gt;SBLGNT&lt;/strong&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Morphology (&lt;strong&gt;RMAC&lt;/strong&gt;)&lt;/li&gt;&#xA;&lt;li&gt;Spanish text (&lt;strong&gt;NBLA&lt;/strong&gt;)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;The dataset must be:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;✔ mechanically reproducible&lt;/li&gt;&#xA;&lt;li&gt;✔ text-bound (Greek-driven)&lt;/li&gt;&#xA;&lt;li&gt;✔ structurally reliable for ROOTS&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;core-principle&#34;&gt;CORE PRINCIPLE&lt;/h2&gt;&#xA;&lt;p&gt;👉 &lt;strong&gt;The dataset is not created — it is extracted&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;👉 &lt;strong&gt;If it is not in the Greek, it does not exist&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/roots/file-creation-process/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/roots/file-creation-process/</guid>
+      <description>&lt;h1 id=&#34;file-creation-process&#34;&gt;file creation process:&lt;/h1&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;Create file from SBLGNT text:&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; ./generate.awk -v book=tito &amp;gt; tito.md&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;ol start=&#34;2&#34;&gt;&#xA;&lt;li&gt;Create a new file from the newly created file in step 1 and add in NBLA Spanish text:&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;gawk -f scripts/add_nbla.awk NBLA/tito.nbla.md SBLGNT/tito.md &amp;gt; roots-output/tito.out.md&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;ol start=&#34;3&#34;&gt;&#xA;&lt;li&gt;# edit (add verbs)&lt;/li&gt;&#xA;&lt;li&gt;Verify the created files for roots-dataset:&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;gawk -f verify.awk SBLGNT/text/tito.txt tito-verbos.md&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;ol start=&#34;5&#34;&gt;&#xA;&lt;li&gt;update the index.json: Run this within curriculo to rebuild the index:&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;node build-index.js&#xA;```&#xA;&#xA;6. &#xA;&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/roots/roots-dataset/1corintios-data/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/roots/roots-dataset/1corintios-data/</guid>
+      <description>&lt;h3 id=&#34;1corintios-11&#34;&gt;1Corintios 1:1&lt;/h3&gt;&#xA;&lt;p&gt;Παῦλος κλητὸς ἀπόστολος ⸂Χριστοῦ Ἰησοῦ⸃ διὰ θελήματος θεοῦ καὶ Σωσθένης ὁ ἀδελφὸς&lt;/p&gt;&#xA;&lt;p&gt;[Pablo, llamado a ser apóstol de Jesucristo por la voluntad de Dios, y Sóstenes, nuestro hermano,]&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;δέ [CORD] → [pero]&#xA;⚠ no conecta dos cláusulas&lt;/li&gt;&#xA;&lt;li&gt;καί [CORD] → [y]&#xA;⚠ no conecta dos cláusulas&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;1corintios-12&#34;&gt;1Corintios 1:2&lt;/h3&gt;&#xA;&lt;p&gt;τῇ ἐκκλησίᾳ τοῦ θεοῦ, ⸂ἡγιασμένοις ἐν Χριστῷ Ἰησοῦ, τῇ οὔσῃ ἐν Κορίνθῳ,⸃ κλητοῖς ἁγίοις, σὺν πᾶσιν τοῖς ἐπικαλουμένοις τὸ ὄνομα τοῦ κυρίου ἡμῶν Ἰησοῦ Χριστοῦ ἐν παντὶ τόπῳ ⸀αὐτῶν καὶ ἡμῶν·&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Colosenses Data</title>
+      <link>http://localhost:1313/roots/roots-dataset/colosenses-data/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/roots/roots-dataset/colosenses-data/</guid>
+      <description>&lt;h3 id=&#34;col-1-1&#34;&gt;Colosenses 1:1&lt;/h3&gt;&#xA;&lt;p&gt;Παῦλος ἀπόστολος ⸂Χριστοῦ Ἰησοῦ⸃ διὰ θελήματος θεοῦ καὶ Τιμόθεος ὁ ἀδελφὸς&lt;br&gt;&#xA;[Pablo, apóstol de Jesucristo por la voluntad de Dios, y el hermano Timoteo,]&lt;/p&gt;&#xA;&lt;h3 id=&#34;col-1-2&#34;&gt;Colosenses 1:2&lt;/h3&gt;&#xA;&lt;p&gt;τοῖς ἐν ⸀Κολοσσαῖς ἁγίοις καὶ πιστοῖς ἀδελφοῖς ἐν Χριστῷ· χάρις ὑμῖν καὶ εἰρήνη ἀπὸ θεοῦ πατρὸς ⸀ἡμῶν.&lt;br&gt;&#xA;[a los santos y fieles hermanos en Cristo que están en Colosas: Gracia a ustedes y paz de parte de Dios nuestro Padre.]&lt;/p&gt;&#xA;&lt;h3 id=&#34;col-1-3&#34;&gt;Colosenses 1:3&lt;/h3&gt;&#xA;&lt;p&gt;Εὐχαριστοῦμεν τῷ ⸀θεῷ πατρὶ τοῦ κυρίου ἡμῶν Ἰησοῦ Χριστοῦ πάντοτε ⸀περὶ ὑμῶν προσευχόμενοι,&lt;br&gt;&#xA;[Damos gracias a Dios, el Padre de nuestro Señor Jesucristo, orando siempre por ustedes,]&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Tito roots-data</title>
+      <link>http://localhost:1313/roots/roots-dataset/tito-data/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/roots/roots-dataset/tito-data/</guid>
+      <description>&lt;h1 id=&#34;tito&#34;&gt;Tito&lt;/h1&gt;&#xA;&lt;h3 id=&#34;tit-1-1&#34;&gt;Tito 1:1&lt;/h3&gt;&#xA;&lt;p&gt;Παῦλος δοῦλος θεοῦ ἀπόστολος δὲ Ἰησοῦ Χριστοῦ κατὰ πίστιν ἐκλεκτῶν θεοῦ καὶ ἐπίγνωσιν ἀληθείας τῆς κατʼ εὐσέβειαν&lt;/p&gt;&#xA;&lt;p&gt;[Paulo, siervo de Dios y apóstol de Jesucristo, conforme a la fe de los escogidos de Dios y al conocimiento de la verdad que es según la piedad.]&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h3 id=&#34;tit-1-2&#34;&gt;Tito 1:2&lt;/h3&gt;&#xA;&lt;p&gt;ἐπʼ ἐλπίδι ζωῆς αἰωνίου ἣν ἐπηγγείλατο ὁ ἀψευδὴς θεὸς πρὸ χρόνων αἰωνίων&lt;/p&gt;&#xA;&lt;p&gt;[con la esperanza de la vida eterna, la cual Dios, que no miente, prometió desde antes del principio de los siglos.]&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

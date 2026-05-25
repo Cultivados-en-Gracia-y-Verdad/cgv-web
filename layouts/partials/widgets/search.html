@@ -1,0 +1,19 @@
+{{ if isset .Site.Params.widgets "search" }}
+{{ if .Site.Params.widgets.search }}
+<div class="panel panel-default sidebar-menu">
+
+    <div class="panel-heading">
+      <h3 class="panel-title">{{ i18n "searchTitle" }}</h3>
+    </div>
+
+    <div class="panel-body">
+<form onsubmit="goToRef(); return false;">
+ <input id="verseInput" placeholder="tito 1:4" autofocus autocomplete="off">
+  <button type="submit">Ir</button>
+</form>
+
+<div id="results"></div>
+</div>
+</div>
+{{ end }}
+{{ end }}

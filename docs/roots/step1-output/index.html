@@ -1,0 +1,138 @@
+<link rel="stylesheet" href="/css/roots.css">
+<link rel="stylesheet" href="/css/custom.css">
+<h1>ROOTS Step1</h1>
+
+<p>Buscar y navegar por los textos procesados.</p>
+
+<div class="search-bar"></div>
+<input 
+  type="text" 
+  id="searchBox" 
+  placeholder="Buscar: col 1:1, romanos, fe..."
+  style="width: 100%; padding: 8px; margin: 10px 0;"
+/>
+
+<ul id="results"></ul>
+
+<ul class="roots-list">
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+</ul>
+
+<script>
+let DATA = [];
+
+const input = document.getElementById('searchBox');
+const results = document.getElementById('results');
+
+function clean(str) {
+  return (str || '').toLowerCase().trim();
+}
+
+
+fetch('/roots/roots-dataset/index.json')
+  .then(res => res.json())
+  .then(json => {
+    DATA = json;
+    console.log('DATA loaded:', DATA.length);
+
+    
+    input.addEventListener('input', handleSearch);
+  })
+  .catch(err => console.error('Fetch error:', err));
+
+function handleSearch() {
+  const query = clean(input.value);
+  results.innerHTML = '';
+
+  if (!query) return;
+
+  const matches = DATA.filter(item =>
+    JSON.stringify(item).toLowerCase().includes(query)
+  );
+
+  results.innerHTML = '';
+
+matches.slice(0, 20).forEach(item => {
+  const ref = item.ref || item.title || '';
+  const preview = item.content
+    ? item.content.replace(/\s+/g, ' ').slice(0, 80)
+    : '';
+
+  if (!ref) return;
+
+  const li = document.createElement('li');
+
+  
+  const a = document.createElement('a');
+  a.href = item.url || '#';
+  a.textContent = ref;
+  li.appendChild(a);
+
+  
+  if (preview) {
+    const excerpt = document.createElement('div');
+    excerpt.className = 'search-excerpt';
+    excerpt.textContent = preview + '...';
+    li.appendChild(excerpt);
+  }
+
+  results.appendChild(li);
+});
+}
+const regex = new RegExp(`(${query})`, 'gi');
+excerpt.innerHTML = preview.replace(regex, '<mark>$1</mark>') + '...';
+</script>

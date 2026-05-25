@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+  {{ partial "headers.html" . }}
+  {{ partial "custom_headers.html" . }}
+</head>
+
+<body>
+<div id="all">
+
+  {{ partial "top.html" . }}
+  {{ partial "nav.html" . }}
+
+  <main class="cgv-home">
+
+    <section class="cgv-home-hero">
+      <div class="container">
+        <p class="cgv-eyebrow">Cultivados en Gracia y Verdad</p>
+
+        <h1>Formación bíblica seria dentro de la iglesia local.</h1>
+
+        <p class="cgv-home-lead">
+          CGV existe para ayudar a iglesias a desarrollar creyentes profundamente arraigados en la Escritura mediante formación bíblica intencional, discipulado y acompañamiento dentro de la iglesia local.
+        </p>
+
+        <div class="cgv-home-actions">
+          <a class="btn btn-template-main btn-lg" href="/nosotros/">Conocer CGV</a>
+          <a class="btn btn-template-main cgv-btn-outline btn-lg" href="/curriculo/">Ver el currículo</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cgv-home-section">
+      <div class="container">
+        <div class="cgv-home-grid three">
+          <article class="cgv-home-card">
+            <h2>La iglesia local</h2>
+            <p>
+              Creemos que la formación bíblica debe permanecer profundamente conectada a la vida, el discipulado y la comunidad de la iglesia local.
+            </p>
+          </article>
+
+          <article class="cgv-home-card">
+            <h2>Formación intencional</h2>
+            <p>
+              El currículo, los materiales y los Centros de Capacitación existen para apoyar procesos reales de discipulado y formación bíblica seria.
+            </p>
+          </article>
+
+          <article class="cgv-home-card">
+            <h2>Una etapa formativa</h2>
+            <p>
+              CGV busca aprovechar una etapa profundamente formativa de la vida para ayudar a creyentes a desarrollar fundamentos bíblicos sólidos que impacten el resto de sus vidas.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cgv-home-section cgv-home-highlight">
+      <div class="container">
+        <div class="cgv-home-split">
+          <div>
+            <p class="cgv-eyebrow">El Camino Sugerido de Formación</p>
+            <h2>Una secuencia intencional para desarrollar hacedores de discípulos.</h2>
+          </div>
+
+          <div>
+            <p>
+              El currículo CGV busca ayudar a iglesias a desarrollar una formación bíblica seria mediante una progresión intencional de cursos, materiales y acompañamiento.
+            </p>
+
+            <a class="btn btn-template-main" href="/curriculo/">
+              Explorar el currículo
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cgv-home-section cgv-materials-preview">
+      <div class="container">
+
+        <div class="cgv-section-heading">
+          <p class="cgv-eyebrow">Materiales CGV</p>
+          <h2>Materiales disponibles</h2>
+          <p>
+            Manuales y materiales bíblicos preparados para apoyar procesos de formación y discipulado dentro de la iglesia local.
+          </p>
+        </div>
+
+        <div class="cgv-course-grid">
+
+          {{ range first 3 (where site.Pages "Section" "courses") }}
+
+            {{ if ne .Kind "section" }}
+
+              {{ $cover := .Resources.GetMatch "*portada*" }}
+              {{ if not $cover }}{{ $cover = .Resources.GetMatch "*.jpg" }}{{ end }}
+
+              {{ $alumno := .Resources.GetMatch "*alumno*.pdf" }}
+              {{ if not $alumno }}{{ $alumno = .Resources.GetMatch "*Alumno*.pdf" }}{{ end }}
+
+              {{ $maestro := .Resources.GetMatch "*maestro*.pdf" }}
+              {{ if not $maestro }}{{ $maestro = .Resources.GetMatch "*Maestro*.pdf" }}{{ end }}
+
+              <article class="cgv-course-card">
+
+                <a href="{{ .RelPermalink }}" class="cgv-course-cover">
+                  {{ if $cover }}
+                    <img src="{{ $cover.RelPermalink }}" alt="{{ .Title }}">
+                  {{ else }}
+                    <div class="cgv-cover-placeholder">CGV</div>
+                  {{ end }}
+                </a>
+
+                <div class="cgv-course-card-body">
+                  <p class="cgv-course-meta">
+                    {{ with .Params.orden }}Curso {{ . }}{{ else }}Material CGV{{ end }}
+                  </p>
+
+                  <h2>
+                    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                  </h2>
+
+                  <p>{{ .Params.description }}</p>
+
+                  <div class="cgv-download-row">
+                    {{ if $alumno }}
+                      <a class="btn btn-template-main" href="{{ $alumno.RelPermalink }}">Alumno</a>
+                    {{ end }}
+
+                    {{ if $maestro }}
+                      <a class="btn btn-template-main cgv-btn-outline" href="{{ $maestro.RelPermalink }}">Maestro</a>
+                    {{ end }}
+                  </div>
+                </div>
+
+              </article>
+
+            {{ end }}
+
+          {{ end }}
+
+        </div>
+
+        <div class="cgv-view-all">
+          <a class="btn btn-template-main btn-lg" href="/courses/">
+            Ver todos los materiales
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="cgv-home-section cgv-radio-home">
+      <div class="container">
+        <div class="cgv-home-radio-card">
+          <div>
+            <p class="cgv-eyebrow">Radio CGV</p>
+            <h2>Enseñanza bíblica diaria</h2>
+            <p>
+              Escuche Radio CGV como un recurso sencillo de enseñanza bíblica y formación continua.
+            </p>
+          </div>
+
+          <a class="btn btn-template-main btn-lg" href="/radio/">
+            Escuchar Radio CGV
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  {{ partial "footer.html" . }}
+
+</div>
+
+{{ partial "scripts.html" . }}
+</body>
+</html>

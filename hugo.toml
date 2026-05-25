@@ -1,0 +1,221 @@
+baseURL = 'https://discipuladocgv.org/'
+languageCode = 'es'
+title = 'Discipulado CGV'
+theme = "hugo-universal-theme"
+PublishDir = "docs"
+defaultContentLanguage = "es"
+ShowBreadCrumbs = "true"
+disqusShortname = "cgv"
+googleAnalytics = ""
+summaryLength = 70
+
+[markup.goldmark.renderer]
+ unsafe = true
+ 
+pluralizelisttitles = false
+enableInlineShortcodes = true
+enableRobotsTXT = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+  page = ["HTML"]
+  section = ["HTML", "RSS"]
+  taxonomy = ["HTML", "RSS"]
+  term = ["HTML", "RSS"]
+
+[sitemap]
+  changefreq = "weekly"
+  priority = 0.7
+  filename = "sitemap.xml"
+
+[menu]
+
+[[menu.main]]
+    name = "Inicio"
+    url = "/"
+    weight = 1
+
+[[menu.main]]
+    name = "CGV"
+    identifier = "cgv"
+    url = "/nosotros/"
+    weight = 2
+
+[[menu.main]]
+    name = "¿Qué es CGV?"
+    url = "/nosotros/"
+    parent = "cgv"
+    weight = 1
+
+[[menu.main]]
+    name = "Currículo"
+    identifier = "curriculo"
+    url = "/curriculo/"
+    weight = 3
+
+[[menu.main]]
+    name = "Camino de Formación"
+    url = "/curriculo/"
+    parent = "curriculo"
+    weight = 1
+
+[[menu.main]]
+    name = "Materiales"
+    url = "/courses/"
+    parent = "curriculo"
+    weight = 2
+
+[[menu.main]]
+    name = "Centros de Capacitación"
+    url = "/centros/"
+    weight = 4
+
+[[menu.main]]
+    name = "ROOTS"
+    url = "/ROOTS/"
+    weight = 5
+
+[[menu.main]]
+    name = "Participa"
+    identifier = "participa"
+    url = "/contacto/"
+    weight = 6
+
+[[menu.main]]
+    name = "Implementar un Centro"
+    url = "/implementacion/"
+    parent = "participa"
+    weight = 1
+
+[[menu.main]]
+    name = "Contacto"
+    url = "/contacto/"
+    parent = "participa"
+    weight = 2
+
+[[menu.main]]
+    name = "Descargas"
+    url = "/descargas/"
+    parent = "participa"
+    weight = 3
+
+[[menu.main]]
+    name = "Manual CGV Presenter"
+    url = "/cgv-presenter/"
+    parent = "participa"
+    weight = 4
+
+[[menu.topbar]]
+    weight = 1
+    name = "Phone"
+    url = "tel: +591 (6) 4908144"
+    pre = "<i class='fas fa-2x fa-phone'></i>"
+
+[[menu.topbar]]
+    weight = 2
+    name = "Radio"
+    url = "https://link.radioking.com/cgv"
+    pre = "<i class='fas fa-2x fa-broadcast-tower'></i>"
+
+[[menu.topbar]]
+    weight = 3
+    name = "Email"
+    url = "mailto:info@discipuladocgv.org"
+    pre = "<i class='fas fa-2x fa-envelope'></i>"
+
+[params]
+    viewMorePostLink = "/blog/"
+    author = "CGV"
+    defaultKeywords = ["CGV", "Cultivados en Gracia y Verdad", "Discipulado CGV", "discipulado bíblico", "currículo bíblico", "formación bíblica", "iglesia local", "Centros de Capacitación"]
+    mainSections = ["blog"]
+    defaultDescription = "Discipulado CGV ayuda a iglesias locales mediante formación bíblica seria, discipulado intencional, currículo y acompañamiento dentro del contexto de la iglesia local."
+    custom_css = ["css/custom_style.css"]
+    twitter_site = ""
+    default_sharing_image = "img/sharing-default.png"
+    enableGoogleMaps = false
+    googleMapsApiKey = ""
+    latitude = "-12.043333"
+    longitude = "-77.028333"
+    style = "default"
+    formspree_action = "https://formspree.io/f/xrgwkrlq"
+    contact_form_ajax = false
+    enableRecaptchaInContactForm = false
+    googleRecaptchaKey = "site_key_for_google_recaptcha"
+    date_format = "January 2, 2006"
+    dropdown_mouse_over = false
+    disabled_logo = false
+    logo_text = "CGV"
+    logo = "img/cgv-logo.jpg"
+    logo_small = "img/cgv-logo-small.jpg"
+    contact_url = "/contacto"
+    copyright = "© CGV — Cultivados en Gracia y Verdad"
+    address = """<p class="text-uppercase"><strong>Centros en Bolivia</strong>
+        <br>Iglesia Yo Soy
+        <br>Cochabamba
+        <br><br>
+        Iglesia Bíblica Misionera
+        <br>Tupiza
+      </p>"""
+
+about_us = """
+<p>
+<strong>Cultivados en Gracia y Verdad</strong> existe para ayudar a iglesias locales mediante formación bíblica seria, discipulado intencional y acompañamiento dentro del contexto de la iglesia local.
+</p>
+"""
+
+UglifyURLs = true
+CanonifyURLs = true
+
+[params.topbar]
+    enable = true
+    text = """<p class="hidden-sm hidden-xs">Contactarnos vía WhatsApp +591 (6) 4908144 o info@discipuladocgv.org</p>
+      <p class="hidden-md hidden-lg"><a href="tel:+591 (6) 4908144" data-animate-hover="pulse"><i class="fas fa-phone"></i></a>
+      <a href="mailto:info@discipuladocgv.org" data-animate-hover="pulse"><i class="fas fa-envelope"></i></a>
+      </p>"""
+
+[params.widgets]
+    categories = true
+    tags = true
+    search = true
+
+[params.carouselCustomers]
+    items = 6
+    auto_play = true
+    slide_speed = 2000
+    pagination_speed = 1000
+
+[params.carouselTestimonials]
+    items = 3
+    auto_play = true
+    slide_speed = 2000
+    pagination_speed = 1000
+
+[params.carouselHomepage]
+    enable = false
+    auto_play = true
+    slide_speed = 2000
+    pagination_speed = 1000
+
+[params.features]
+    enable = false
+    cols = 3
+
+[params.testimonials]
+    enable = false
+
+[params.see_more]
+    enable = false
+
+[params.clients]
+    enable = false
+
+[params.recent_posts]
+    enable = false
+
+[params.footer.recent_posts]
+    enable = false
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+  author = "authors"

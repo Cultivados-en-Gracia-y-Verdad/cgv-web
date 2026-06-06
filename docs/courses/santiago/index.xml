@@ -2,10 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Santiago on Discipulado CGV</title>
-    <link>http://localhost:53234/courses/santiago/</link>
+    <link>http://localhost:1313/courses/santiago/</link>
     <description>Recent content in Santiago on Discipulado CGV</description>
     <generator>Hugo</generator>
     <language>es</language>
-    <atom:link href="http://localhost:53234/courses/santiago/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/courses/santiago/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

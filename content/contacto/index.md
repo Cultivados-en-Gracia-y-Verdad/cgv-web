@@ -1,5 +1,7 @@
 ---
 title: "Contacto"
+date: 2026-07-14T00:00:00-04:00
+draft: false
 ---
 
 ## Hablemos
@@ -21,25 +23,31 @@ Puede escribirnos si desea:
 ## Formulario de contacto
 
 <form action="https://formspree.io/f/xrgwkrlq" method="POST" class="cgv-contact-form">
+  <input type="hidden" name="_subject" value="Mensaje desde discipuladocgv.org" />
 
-<label>Nombre</label>
-<input type="text" name="nombre" required>
+  <div class="form-group">
+    <label for="contacto-nombre">Nombre</label>
+    <input id="contacto-nombre" class="form-control" type="text" name="nombre" required autocomplete="name" />
+  </div>
 
-<label>Correo electrónico</label>
-<input type="email" name="email" required>
+  <div class="form-group">
+    <label for="contacto-email">Correo electrónico</label>
+    <input id="contacto-email" class="form-control" type="email" name="email" required autocomplete="email" />
+  </div>
 
-<label>Mensaje</label>
-<textarea name="mensaje" rows="6" required></textarea>
+  <div class="form-group">
+    <label for="contacto-mensaje">Mensaje</label>
+    <textarea id="contacto-mensaje" class="form-control" name="mensaje" rows="6" required></textarea>
+  </div>
 
-<button type="submit">Enviar mensaje</button>
-
+  <button type="submit" class="btn btn-template-main">Enviar mensaje</button>
 </form>
 
 ## Información de contacto
 
-**Correo:** info@discipuladocgv.org
+**Correo:** [info@discipuladocgv.org](mailto:info@discipuladocgv.org)
 
-**WhatsApp:** +591 6 4908144
+**WhatsApp:** [+591 6 4908144](https://wa.me/59164908144)
 
 ## Implementar un Centro de Capacitación
 

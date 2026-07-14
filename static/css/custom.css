@@ -219,3 +219,37 @@ li {
   color: #134e4a !important;
   padding: 14px 18px;
 }
+
+.cgv-contact-form {
+  max-width: 640px;
+  margin: 1.5rem 0 2.5rem;
+}
+
+.cgv-contact-form .form-group {
+  margin-bottom: 1.1rem;
+}
+
+.cgv-contact-form label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.cgv-contact-form .form-control {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-shadow: none;
+}
+
+.cgv-contact-form .form-control:focus {
+  border-color: #0f766e;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
+}
+
+.cgv-contact-form .btn-template-main {
+  margin-top: 0.35rem;
+}

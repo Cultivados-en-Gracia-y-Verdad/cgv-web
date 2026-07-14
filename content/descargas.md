@@ -1,6 +1,6 @@
 ---
 title: "Descargas"
-date: 2026-05-18T00:00:00-04:00
+date: 2026-07-14T00:00:00-04:00
 draft: false
 image: "img/cgv-logo.jpg"
 ---
@@ -14,19 +14,18 @@ image: "img/cgv-logo.jpg"
     <article class="download-card">
       <h2>macOS</h2>
       <p>Para computadoras Mac con Apple Silicon.</p>
-      <a id="cgv-presenter-macos-download" class="download-button" href="https://github.com/Cultivados-en-Gracia-y-Verdad/herramientas/releases/download/CGV-Presenter-v1.1.12/CGV.Presenter-darwin-arm64-1.1.12.zip">
+      <a id="cgv-presenter-macos-download" class="download-button" href="https://github.com/Cultivados-en-Gracia-y-Verdad/herramientas/releases/download/CGV-Presenter-v1.1.16/CGV-Presenter-macOS-arm64-1.1.16.zip">
         Descargar para macOS
       </a>
-      <small id="cgv-presenter-macos-version">Versión 1.1.12 · ZIP</small>
+      <small id="cgv-presenter-macos-version">Versión 1.1.16 · ZIP</small>
     </article>
     <article class="download-card">
       <h2>Windows</h2>
       <p>Para computadoras Windows.</p>
-      <a id="cgv-presenter-windows-download" class="download-button" href="https://github.com/Cultivados-en-Gracia-y-Verdad/herramientas/releases/download/CGV-Presenter-v1.0.1/CGV.Presenter-1.0.1.Setup.exe">
+      <a id="cgv-presenter-windows-download" class="download-button" href="https://github.com/Cultivados-en-Gracia-y-Verdad/herramientas/releases/download/CGV-Presenter-v1.1.16/CGV.Presenter-1.1.16.Setup.exe">
         Descargar para Windows
       </a>
-      <small id="cgv-presenter-windows-version">Versión 1.0.1 · EXE</small>
-      <small id="cgv-presenter-windows-note" class="download-muted">Se actualizará cuando esté disponible la nueva versión para Windows.</small>
+      <small id="cgv-presenter-windows-version">Versión 1.1.16 · EXE</small>
     </article>
   </div>
 
@@ -43,24 +42,36 @@ image: "img/cgv-logo.jpg"
 
 <script>
 (() => {
-  const releaseApiUrl = "https://api.github.com/repos/Cultivados-en-Gracia-y-Verdad/herramientas/releases/latest";
-  const versionPattern = /CGV-Presenter-v(.+)$/;
+  // Do not use /releases/latest — that can be BLE+ or another non-Presenter tag.
+  const releasesApiUrl = "https://api.github.com/repos/Cultivados-en-Gracia-y-Verdad/herramientas/releases?per_page=30";
+  const versionPattern = /^CGV-Presenter-v(.+)$/;
   const macLink = document.getElementById("cgv-presenter-macos-download");
   const macVersion = document.getElementById("cgv-presenter-macos-version");
   const windowsLink = document.getElementById("cgv-presenter-windows-download");
   const windowsVersion = document.getElementById("cgv-presenter-windows-version");
-  const windowsNote = document.getElementById("cgv-presenter-windows-note");
 
   const getVersion = release => {
     const match = String(release.tag_name || "").match(versionPattern);
-    return match ? match[1] : String(release.name || "").replace(/^CGV Presenter\s*/i, "").trim();
+    return match ? match[1] : "";
   };
 
   const findAsset = (assets, pattern) => assets.find(asset => pattern.test(asset.name || ""));
 
-  fetch(releaseApiUrl, { headers: { "Accept": "application/vnd.github+json" } })
+  const pickPresenterRelease = releases => {
+    if (!Array.isArray(releases)) return null;
+    return releases.find(release =>
+      !release.draft
+      && !release.prerelease
+      && versionPattern.test(String(release.tag_name || ""))
+    ) || null;
+  };
+
+  fetch(releasesApiUrl, { headers: { "Accept": "application/vnd.github+json" } })
     .then(response => response.ok ? response.json() : Promise.reject(new Error("release unavailable")))
-    .then(release => {
+    .then(releases => {
+      const release = pickPresenterRelease(releases);
+      if (!release) throw new Error("no presenter release");
+
       const assets = Array.isArray(release.assets) ? release.assets : [];
       const version = getVersion(release);
       const macAsset = findAsset(assets, /(?:mac|darwin).*\.zip$/i);
@@ -74,7 +85,6 @@ image: "img/cgv-logo.jpg"
       if (windowsAsset && windowsLink && windowsVersion) {
         windowsLink.href = windowsAsset.browser_download_url;
         windowsVersion.textContent = `Versión ${version} · ${windowsAsset.name.split(".").pop().toUpperCase()}`;
-        if (windowsNote) windowsNote.hidden = true;
       }
     })
     .catch(() => {

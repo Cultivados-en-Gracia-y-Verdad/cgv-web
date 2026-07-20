@@ -105,6 +105,11 @@ enableRobotsTXT = true
     parent = "participa"
     weight = 4
 
+[[menu.main]]
+    name = "Radio"
+    url = "/radio/"
+    weight = 7
+
 [[menu.topbar]]
     weight = 1
     name = "Phone"

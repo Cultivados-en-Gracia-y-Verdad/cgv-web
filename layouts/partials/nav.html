@@ -135,7 +135,7 @@
                     </li>
                   {{ else }}
                   <li class="dropdown {{ $active }}">
-                    <a href="{{ .URL }}">{{ .Name }}</a>
+                    <a href="{{ .URL }}"{{ if eq .Identifier "reader" }} class="nav-reader-link"{{ end }}>{{ .Name }}</a>
                   </li>
                   {{ end }}
                   {{ end }}

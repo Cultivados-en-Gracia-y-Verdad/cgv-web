@@ -12,6 +12,11 @@
   min-height: 230px;
 }
 
+.navbar ul.nav > li > a.nav-reader-link {
+  font-size: 17px;
+  font-weight: 700;
+}
+
 #content p {
    font-size:medium;
    font-weight:400;

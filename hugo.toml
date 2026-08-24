@@ -76,10 +76,16 @@ enableRobotsTXT = true
     weight = 5
 
 [[menu.main]]
+    name = "Reader"
+    identifier = "reader"
+    url = "https://cultivados-en-gracia-y-verdad.github.io/cgv-reader/"
+    weight = 6
+
+[[menu.main]]
     name = "Participa"
     identifier = "participa"
     url = "/contacto/"
-    weight = 6
+    weight = 7
 
 [[menu.main]]
     name = "Implementar un Centro"
@@ -108,7 +114,7 @@ enableRobotsTXT = true
 [[menu.main]]
     name = "Radio"
     url = "/radio/"
-    weight = 7
+    weight = 8
 
 [[menu.topbar]]
     weight = 1

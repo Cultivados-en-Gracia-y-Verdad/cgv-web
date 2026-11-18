@@ -16,7 +16,11 @@ summaryLength = 70
   [[module.mounts]]
     source = "content"
     target = "content"
-    files = ["! obreros/field-report/**", "! obreros/Field_Report_Local_Source.zip", "! obreros/LOCAL_DEVELOPMENT.md"]
+    files = ["! obreros/**"]
+  [[module.mounts]]
+    source = "static"
+    target = "static"
+    files = ["! img/mensajeros/.generated-by-field-report"]
  
 pluralizelisttitles = false
 enableInlineShortcodes = true

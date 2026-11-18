@@ -133,9 +133,6 @@ La API de sincronización no muestra una interfaz administrativa y requiere
 `SYNC_SECRET` en cada solicitud. Los secretos y el estado de sincronización
 permanecen fuera de Git.
 
-The participant's first step and the public Mensajeros directory include the
-clearly labeled Samuel Pérez concept image as a visual example. It is not a real
-published profile and does not enter the administrator data or CSV files.
 
 If working in a managed preview environment, follow its preview instructions.
 Do not substitute another browser automation framework. The earlier managed

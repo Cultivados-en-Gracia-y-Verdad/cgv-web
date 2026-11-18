@@ -2,11 +2,23 @@
 <html lang="{{ .Site.LanguageCode }}">
 <head>{{ partial "headers.html" . }}{{ partial "custom_headers.html" . }}</head>
 <body><div id="all">{{ partial "top.html" . }}{{ partial "nav.html" . }}
-<main class="mensajero-page">
-  <header class="mensajero-verified"><img src="{{ "img/cgv-logo-small.jpg" | relURL }}" alt="CGV"><span>Mensajeros CGV</span><strong>Perfil verificado por CGV</strong></header>
-  <section class="mensajero-hero"><p class="mensajero-eyebrow">CONOCE SU MINISTERIO</p><h1>{{ .Title }}</h1>{{ with .Params.role }}<p class="mensajero-role">{{ . }}</p>{{ end }}{{ with .Params.location }}<p class="mensajero-location"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> {{ . }}</p>{{ end }}<p class="mensajero-intro">{{ .Params.bio }}</p></section>
-  {{ with .Params.summary }}<section class="mensajero-story"><p class="mensajero-eyebrow">SU LLAMADO Y SU TRABAJO</p><h2>Un ministerio que puedes acompañar</h2><p>{{ . }}</p></section>{{ end }}
-  {{ with .Params.photos }}<section class="mensajero-gallery"><p class="mensajero-eyebrow">EL MINISTERIO EN IMÁGENES</p><div>{{ range . }}<figure><img src="{{ .src | safeURL }}" alt="{{ or .caption "Fotografía del ministerio" }}" loading="lazy"><figcaption>{{ .caption }}{{ with .location }}<span>{{ . }}</span>{{ end }}{{ with .credit }}<small>{{ . }}</small>{{ end }}</figcaption></figure>{{ end }}</div></section>{{ end }}
-  {{ if or .Params.fundingImage .Params.fundingUrl }}<section class="mensajero-support"><div><p class="mensajero-eyebrow">APOYA ESTE MINISTERIO</p><h2>Apoya mi trabajo</h2><p>{{ or .Params.fundingLabel "Tu apoyo ayuda a que este ministerio pueda continuar sirviendo." }}</p>{{ with .Params.fundingUrl }}<a class="mensajero-button" href="{{ . | safeURL }}" target="_blank" rel="noopener noreferrer">Abrir enlace de donaciones</a>{{ end }}</div>{{ with .Params.fundingImage }}<figure><img src="{{ . | safeURL }}" alt="Código QR para apoyar este ministerio"><figcaption>Escanea para apoyar</figcaption></figure>{{ end }}</section>{{ end }}
-  <footer class="mensajero-footer"><img src="{{ "img/cgv-logo-small.jpg" | relURL }}" alt="CGV"><span>Mensajeros CGV · Perfil público</span></footer>
+{{ $photos := .Params.photos }}{{ $hero := "" }}{{ with $photos }}{{ $hero = (index . 0).src }}{{ end }}
+<main class="mensajero-profile">
+  <div class="mensajero-crumb"><a href="/">Inicio</a><span>/</span><a href="/mensajeros/">Mensajeros</a><span>/</span><strong>{{ .Title }}</strong><em>PERFIL VERIFICADO</em></div>
+  <section class="mensajero-cover{{ if not $hero }} no-photo{{ end }}"{{ with $hero }} style="background-image:linear-gradient(90deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.91) 38%,rgba(255,255,255,.2) 70%),url('{{ . | safeURL }}')"{{ end }}>
+    <div class="mensajero-cover-copy"><p class="mensajero-kicker">{{ or .Params.role "SIRVIENDO CON EL EVANGELIO" }}</p><h1>{{ .Title }}</h1>{{ with .Params.role }}<h2>{{ . }}</h2>{{ end }}{{ with .Params.location }}<p class="mensajero-place"><i class="fas fa-map-marker-alt" aria-hidden="true"></i>{{ . }}</p>{{ end }}<p class="mensajero-lead">{{ .Params.bio }}</p><div class="mensajero-cover-actions"><a href="#historia">Conoce mi historia</a>{{ if or .Params.fundingImage .Params.fundingUrl }}<a class="outline" href="#apoyar">Apoyar mi ministerio</a>{{ end }}</div></div>
+  </section>
+  <div class="mensajero-cgv-band"><img src="{{ "img/cgv-logo-small.jpg" | relURL }}" alt="CGV"><span></span><div><strong>Con el acompañamiento de CGV</strong><small>Formación bíblica · Discipulado · Iglesia local</small></div></div>
+  <div class="mensajero-content-grid">
+    <div class="mensajero-main-column">
+      <section id="historia" class="mensajero-section"><h2>Mi historia y llamado</h2><i class="section-rule"></i><p>{{ or .Params.summary .Params.bio }}</p>{{ with .Params.role }}<div class="mensajero-tags"><span>{{ . }}</span>{{ with $.Params.location }}<span>{{ . }}</span>{{ end }}</div>{{ end }}</section>
+      {{ with $photos }}<section class="mensajero-section mensajero-gallery"><h2>El ministerio en imágenes</h2><i class="section-rule"></i><div>{{ range . }}<figure><img src="{{ .src | safeURL }}" alt="{{ or .caption "Fotografía del ministerio" }}" loading="lazy"><figcaption>{{ .caption }}{{ with .location }}<span>{{ . }}</span>{{ end }}</figcaption></figure>{{ end }}</div></section>{{ end }}
+      <section class="mensajero-prayer"><div aria-hidden="true">♡</div><span></span><section><h2>Oremos juntos</h2><ul><li>Por fruto duradero en este ministerio.</li><li>Por las personas, iglesias y familias que acompaña.</li></ul></section></section>
+    </div>
+    <aside class="mensajero-side-column">
+      <section id="apoyar" class="mensajero-support-card"><h2>Sé parte de este ministerio</h2><i class="section-rule"></i><p>{{ or .Params.fundingLabel "Puedes acompañar este ministerio en oración y apoyar la continuidad de su trabajo." }}</p>{{ with .Params.fundingUrl }}<a href="{{ . | safeURL }}" target="_blank" rel="noopener noreferrer">Apoyar mi ministerio</a>{{ end }}{{ with .Params.fundingImage }}<h3>Escanea para dar</h3><img src="{{ . | safeURL }}" alt="Código QR para apoyar este ministerio"><small>También puedes usar el enlace de apoyo.</small>{{ end }}</section>
+      <section class="mensajero-cgv-card"><h2>Una obra acompañada</h2><i class="section-rule"></i><p>Este perfil forma parte del espacio de Mensajeros de CGV.</p><a href="/nosotros/">Conocer CGV <span>›</span></a></section>
+    </aside>
+  </div>
+  <footer class="mensajero-profile-footer"><strong>CGV · Cultivados en Gracia y Verdad</strong><span>discipuladocgv.org</span></footer>
 </main>{{ partial "footer.html" . }}</div>{{ partial "scripts.html" . }}</body></html>

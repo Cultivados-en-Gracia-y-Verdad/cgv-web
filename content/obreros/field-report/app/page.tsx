@@ -1,0 +1,6 @@
+import FieldReport from './field-report';
+import {headers} from 'next/headers';
+import {isAdmin} from './access';
+export const dynamic='force-dynamic';
+export default async function Home(){const h=await headers();const host=h.get('host')||'localhost';const protocol=host.startsWith('localhost')||host.startsWith('127.0.0.1')?'http':'https';const admin=await isAdmin(new Request(protocol+'://'+host+'/',{headers:{cookie:h.get('cookie')||''}}));return admin?<FieldReport/>:<div className="public-landing"><img className="landing-logo" src="/cgv-logo.jpg" alt="CGV"/><p className="eyebrow">MENSAJEROS CGV</p><h1>Ministerios que sirven.<br/><em>Personas que puedes apoyar.</em></h1><p>Cada Mensajero tiene una página pública para presentar su ministerio y recibir apoyo.</p><section><h2>¿Eres Mensajero?</h2><p>CGV te enviará un enlace privado por WhatsApp para preparar y actualizar tu perfil. No compartas ese enlace; después de la revisión recibirás tu URL pública.</p></section><small>La información anual de seguimiento es privada y se utiliza únicamente dentro de CGV.</small></div>;}
+

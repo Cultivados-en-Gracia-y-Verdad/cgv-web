@@ -11,6 +11,12 @@ summaryLength = 70
 
 [markup.goldmark.renderer]
  unsafe = true
+
+[module]
+  [[module.mounts]]
+    source = "content"
+    target = "content"
+    files = ["! obreros/field-report/**", "! obreros/Field_Report_Local_Source.zip", "! obreros/LOCAL_DEVELOPMENT.md"]
  
 pluralizelisttitles = false
 enableInlineShortcodes = true
@@ -73,48 +79,54 @@ enableRobotsTXT = true
 [[menu.main]]
     name = "ROOTS"
     url = "/ROOTS/"
-    weight = 5
+    weight = 6
 
 [[menu.main]]
     name = "Reader"
     identifier = "reader"
     url = "https://cultivados-en-gracia-y-verdad.github.io/cgv-reader/"
-    weight = 6
+    weight = 7
 
 [[menu.main]]
     name = "Participa"
     identifier = "participa"
     url = "/contacto/"
-    weight = 7
+    weight = 8
+
+[[menu.main]]
+    name = "Mensajeros"
+    url = "/mensajeros/"
+    parent = "participa"
+    weight = 1
 
 [[menu.main]]
     name = "Implementar un Centro"
     url = "/implementacion/"
     parent = "participa"
-    weight = 1
+    weight = 2
 
 [[menu.main]]
     name = "Contacto"
     url = "/contacto/"
     parent = "participa"
-    weight = 2
+    weight = 3
 
 [[menu.main]]
     name = "Descargas"
     url = "/descargas/"
     parent = "participa"
-    weight = 3
+    weight = 4
 
 [[menu.main]]
     name = "Manual CGV Presenter"
     url = "/cgv-presenter/"
     parent = "participa"
-    weight = 4
+    weight = 5
 
 [[menu.main]]
     name = "Radio"
     url = "/radio/"
-    weight = 8
+    weight = 9
 
 [[menu.topbar]]
     weight = 1
@@ -140,7 +152,7 @@ enableRobotsTXT = true
     defaultKeywords = ["CGV", "Cultivados en Gracia y Verdad", "Discipulado CGV", "discipulado bíblico", "currículo bíblico", "formación bíblica", "iglesia local", "Centros de Capacitación"]
     mainSections = ["blog"]
     defaultDescription = "Discipulado CGV ayuda a iglesias locales mediante formación bíblica seria, discipulado intencional, currículo y acompañamiento dentro del contexto de la iglesia local."
-    custom_css = ["css/custom_style.css"]
+    custom_css = ["css/custom_style.css", "css/mensajeros.css"]
     twitter_site = ""
     default_sharing_image = "img/sharing-default.png"
     enableGoogleMaps = false

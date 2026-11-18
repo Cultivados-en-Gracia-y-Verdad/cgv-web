@@ -1,0 +1,15 @@
+import {env} from 'cloudflare:workers';
+import {MapPin,QrCode} from 'lucide-react';
+import {normalizeData,safeUrl} from '../../model';
+
+export const dynamic='force-dynamic';
+
+export default async function PublicProfile({params}:{params:Promise<{id:string}>}){
+ const {id}=await params;
+ const row=await env.DB!.prepare('SELECT payload FROM reports WHERE id = ?').bind('main').first<{payload:string}>();
+ const data=row?normalizeData(JSON.parse(row.payload)):null;
+ const profile=data?.publishedProfiles?.[id];
+ if(!profile)return <main className="public-profile unavailable"><img className="unavailable-logo" src="/cgv-logo-small.jpg" alt="CGV"/><p className="eyebrow">MENSAJEROS CGV</p><h1>Este perfil todavía no está publicado.</h1><p>CGV está revisando la información. Vuelve a intentarlo más adelante.</p></main>;
+ const publicImage=(imageId:string)=>'/api/public-images/'+encodeURIComponent(imageId);
+ return <div className="public-profile-page"><header className="public-profile-header"><a href="/" className="participant-brand"><img className="cgv-brand-logo" src="/cgv-logo-small.jpg" alt="CGV"/><span>Mensajeros CGV<small>MINISTERIO Y APOYO</small></span></a><span>Perfil verificado por CGV</span></header><main className="public-profile"><section className="public-profile-hero"><p className="eyebrow">CONOCE SU MINISTERIO</p><h1>{profile.name}</h1><p className="public-profile-role">{profile.role}</p>{profile.location&&<p className="public-profile-location"><MapPin size={17}/>{profile.location}</p>}<p className="public-profile-intro">{profile.bio}</p></section>{profile.summary&&<section className="public-profile-story"><p className="eyebrow">SU LLAMADO Y SU TRABAJO</p><h2>Un ministerio que puedes acompañar</h2><p>{profile.summary}</p></section>}{profile.photos.length>0&&<section className="public-profile-gallery"><p className="eyebrow">EL MINISTERIO EN IMÁGENES</p><div>{profile.photos.map(photo=><figure key={photo.id}>{photo.imageId?<img src={publicImage(photo.imageId)} alt={photo.caption||'Fotografía del ministerio'}/>:safeUrl(photo.externalUrl)&&<img src={safeUrl(photo.externalUrl)} alt={photo.caption||'Fotografía del ministerio'} referrerPolicy="no-referrer"/>}<figcaption>{photo.caption}{photo.location&&<span>{photo.location}</span>}</figcaption></figure>)}</div></section>}{(profile.fundingImageId||safeUrl(profile.fundingUrl))&&<section className="public-support"><div><p className="eyebrow">APOYA ESTE MINISTERIO</p><h2>Apoya mi trabajo</h2><p>{profile.fundingLabel||'Tu apoyo ayuda a que este ministerio pueda continuar sirviendo.'}</p>{safeUrl(profile.fundingUrl)&&<a className="button primary" href={safeUrl(profile.fundingUrl)} target="_blank" rel="noopener noreferrer">Abrir enlace de donaciones</a>}</div>{profile.fundingImageId&&<div className="public-support-qr"><img src={publicImage(profile.fundingImageId)} alt="Código QR para apoyar este ministerio"/><span><QrCode size={15}/> Escanea para apoyar</span></div>}</section>}<footer className="public-profile-footer"><img src="/cgv-logo-small.jpg" alt="CGV"/><span>Mensajeros CGV · Perfil público</span></footer></main></div>;
+}

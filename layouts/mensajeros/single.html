@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>{{ partial "headers.html" . }}{{ partial "custom_headers.html" . }}</head>
+<body><div id="all">{{ partial "top.html" . }}{{ partial "nav.html" . }}
+<main class="mensajero-page">
+  <header class="mensajero-verified"><img src="{{ "img/cgv-logo-small.jpg" | relURL }}" alt="CGV"><span>Mensajeros CGV</span><strong>Perfil verificado por CGV</strong></header>
+  <section class="mensajero-hero"><p class="mensajero-eyebrow">CONOCE SU MINISTERIO</p><h1>{{ .Title }}</h1>{{ with .Params.role }}<p class="mensajero-role">{{ . }}</p>{{ end }}{{ with .Params.location }}<p class="mensajero-location"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> {{ . }}</p>{{ end }}<p class="mensajero-intro">{{ .Params.bio }}</p></section>
+  {{ with .Params.summary }}<section class="mensajero-story"><p class="mensajero-eyebrow">SU LLAMADO Y SU TRABAJO</p><h2>Un ministerio que puedes acompañar</h2><p>{{ . }}</p></section>{{ end }}
+  {{ with .Params.photos }}<section class="mensajero-gallery"><p class="mensajero-eyebrow">EL MINISTERIO EN IMÁGENES</p><div>{{ range . }}<figure><img src="{{ .src | safeURL }}" alt="{{ or .caption "Fotografía del ministerio" }}" loading="lazy"><figcaption>{{ .caption }}{{ with .location }}<span>{{ . }}</span>{{ end }}{{ with .credit }}<small>{{ . }}</small>{{ end }}</figcaption></figure>{{ end }}</div></section>{{ end }}
+  {{ if or .Params.fundingImage .Params.fundingUrl }}<section class="mensajero-support"><div><p class="mensajero-eyebrow">APOYA ESTE MINISTERIO</p><h2>Apoya mi trabajo</h2><p>{{ or .Params.fundingLabel "Tu apoyo ayuda a que este ministerio pueda continuar sirviendo." }}</p>{{ with .Params.fundingUrl }}<a class="mensajero-button" href="{{ . | safeURL }}" target="_blank" rel="noopener noreferrer">Abrir enlace de donaciones</a>{{ end }}</div>{{ with .Params.fundingImage }}<figure><img src="{{ . | safeURL }}" alt="Código QR para apoyar este ministerio"><figcaption>Escanea para apoyar</figcaption></figure>{{ end }}</section>{{ end }}
+  <footer class="mensajero-footer"><img src="{{ "img/cgv-logo-small.jpg" | relURL }}" alt="CGV"><span>Mensajeros CGV · Perfil público</span></footer>
+</main>{{ partial "footer.html" . }}</div>{{ partial "scripts.html" . }}</body></html>

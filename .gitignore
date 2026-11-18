@@ -4,6 +4,8 @@
 *.mp3
 OSHB/
 scripts/
+!/content/obreros/field-report/scripts/
+!/content/obreros/field-report/scripts/**
 /content/roots/SBLGNT/MorphGNT
 /content/roots-presenter/node_modules/@electron
 /content/roots-presenter/node_modules

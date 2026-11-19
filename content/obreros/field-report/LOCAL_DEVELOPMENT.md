@@ -23,6 +23,31 @@ The public, fictional demonstration is at https://field-report-workspace.calmnor
 
 The next work is LOCAL ONLY. Do not deploy, change hosted access, rotate production secrets, or write to the hosted database unless the user explicitly requests it.
 
+## Servicio remoto de formularios
+
+El 19 de noviembre de 2026 se creó un servicio aislado para que los Mensajeros
+puedan completar el formulario desde sus teléfonos:
+
+- Worker: `cgv-mensajeros-formularios`
+- URL pública: `https://formularios.discipuladocgv.org`
+- Origen interno: `https://cgv-mensajeros-formularios.johnwry.workers.dev`
+- Proxy Pages: `cgv-mensajeros-acceso`
+- D1: `cgv-mensajeros-formularios`
+- R2: `cgv-mensajeros-imagenes`
+- Configuración: `wrangler.form-service.jsonc`
+
+El panel administrativo remoto permanece bloqueado mediante
+`ADMIN_LOCAL_ONLY=true`. El administrador local comparte `REPORT_SECRET` con
+el servicio únicamente para crear invitaciones válidas, y usa otro secreto
+independiente para sincronizar. Ambos valores están en archivos ignorados y en
+los secretos de Cloudflare; nunca deben añadirse a Git ni imprimirse.
+
+No vuelvas a ejecutar `scripts/configure-form-service-secrets.mjs` durante el
+uso normal: rota las claves y anula todas las invitaciones existentes. Antes de
+desplegar cambios deliberados, ejecuta las tres verificaciones y después
+`npm run deploy:forms:check`. `npm run deploy:forms` actualiza únicamente este
+Worker y requiere autorización explícita.
+
 ## Run locally
 
 Requires Node.js 22.13 or newer and npm. Node.js 24 is recommended for matching the tested runtime.
@@ -63,7 +88,7 @@ From the extracted project directory:
    The standalone demonstration is available at http://localhost:5173/demo.
 
 7. In the administrator interface, open “Recopilar respuestas” and copy a personal
-   invitation. Invitations use `https://discipuladocgv.org/participar/...` by
+   invitation. Invitations use `https://formularios.discipuladocgv.org/participar/...` by
    default, even when the administrator is running locally. Set
    `PUBLIC_FORM_ORIGIN` only if the private form moves to another HTTPS origin.
 

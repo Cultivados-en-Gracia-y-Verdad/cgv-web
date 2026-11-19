@@ -32,6 +32,7 @@ puedan completar el formulario desde sus teléfonos:
 - URL pública: `https://formularios.discipuladocgv.org`
 - Origen interno: `https://cgv-mensajeros-formularios.johnwry.workers.dev`
 - Proxy Pages: `cgv-mensajeros-acceso`
+- DNS externo: CNAME `formularios` → `cgv-mensajeros-acceso.pages.dev`
 - D1: `cgv-mensajeros-formularios`
 - R2: `cgv-mensajeros-imagenes`
 - Configuración: `wrangler.form-service.jsonc`
@@ -79,6 +80,10 @@ From the extracted project directory:
 
    This starts the local application and a CSV watcher. Each successful save
    updates the ignored `private-data/` snapshot automatically.
+
+   Para abrir el administrador como aplicación independiente del navegador usa
+   `npm run desktop`. La aplicación inicia el servidor local si hace falta,
+   ejecuta la sincronización al abrirse y ofrece el botón «Actualizar respuestas».
 
 6. Open the LOCAL administrator URL printed in step 2, starting with:
    http://localhost:5173/administrar/
@@ -157,6 +162,15 @@ Flujo recomendado:
 La API de sincronización no muestra una interfaz administrativa y requiere
 `SYNC_SECRET` en cada solicitud. Los secretos y el estado de sincronización
 permanecen fuera de Git.
+
+### Avisos por correo al enviar un formulario
+
+El servicio remoto puede enviar un aviso transaccional cuando un Mensajero pulsa
+«Enviar para revisión». La entrega del formulario no falla si el correo no está
+disponible. Para activarlo, primero habilita Cloudflare Email Sending y valida el
+dominio remitente; después configura `NOTIFICATION_EMAIL` y `NOTIFICATION_FROM`
+como variables del Worker. La vinculación se llama `EMAIL`. Los envíos repetidos
+sin cambios no generan avisos adicionales.
 
 
 If working in a managed preview environment, follow its preview instructions.

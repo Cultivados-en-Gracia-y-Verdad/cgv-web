@@ -18,7 +18,7 @@
   },
   "vars": {
     "ADMIN_LOCAL_ONLY": "true",
-    "PUBLIC_FORM_ORIGIN": "https://cgv-mensajeros-formularios.johnwry.workers.dev"
+    "PUBLIC_FORM_ORIGIN": "https://formularios.discipuladocgv.org"
   },
   "d1_databases": [
     {
@@ -31,6 +31,11 @@
     {
       "binding": "BUCKET",
       "bucket_name": "cgv-mensajeros-imagenes"
+    }
+  ],
+  "send_email": [
+    {
+      "name": "EMAIL"
     }
   ],
   "observability": {

@@ -2,6 +2,14 @@ import {env} from 'cloudflare:workers';
 import {participantAccess,noAccess,sameOrigin} from '../../../access';
 import {initialData,newAnnual,hasAnnual,normalizeData,personYears} from '../../../model';
 async function read(){const row=await env.DB!.prepare('SELECT payload,version FROM reports WHERE id = ?').bind('main').first<{payload:string;version:number}>();return row?{data:normalizeData(JSON.parse(row.payload)),version:row.version}:{data:initialData(),version:0};}
+async function notifySubmission(id:string,name:string){
+ if(!env.EMAIL||!env.NOTIFICATION_EMAIL||!env.NOTIFICATION_FROM)return;
+ const safeName=(name.trim()||`Mensajero ${id}`).replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c]!));
+ const subject=`Nuevo formulario enviado: ${name.trim()||id}`;
+ const text=`${name.trim()||`El Mensajero ${id}`} envió su formulario para revisión.\n\nAbre la aplicación administrativa Mensajeros CGV y pulsa “Actualizar respuestas”.`;
+ const html=`<p><strong>${safeName}</strong> envió su formulario para revisión.</p><p>Abre la aplicación administrativa Mensajeros CGV y pulsa <strong>Actualizar respuestas</strong>.</p>`;
+ await env.EMAIL.send({to:env.NOTIFICATION_EMAIL,from:{email:env.NOTIFICATION_FROM,name:'CGV Mensajeros'},subject,text,html});
+}
 export async function GET(req:Request,{params}:{params:Promise<{id:string}>}){const {id}=await params;if(await participantAccess(req)!==id)return noAccess();const {data}=await read();const person=data.people.find((p:any)=>p.id===id);if(!person)return noAccess();return Response.json({title:data.title,startYear:data.startYear,person,annual:personYears(person).map(year=>data.annual.find((a:any)=>a.personId===id&&a.year===year)||newAnnual(id,year)),photos:data.photos.filter((p:any)=>p.personId===id),version:data.personVersions?.[id]||0},{headers:{'Cache-Control':'no-store'}});}
 export async function PUT(req:Request,{params}:{params:Promise<{id:string}>}){
  const {id}=await params;if(!sameOrigin(req)||await participantAccess(req)!==id)return noAccess();
@@ -26,6 +34,7 @@ export async function PUT(req:Request,{params}:{params:Promise<{id:string}>}){
   const previousPhotos=data.photos.filter((photo:any)=>photo.personId===id);const photosChanged=JSON.stringify(previousPhotos)!==JSON.stringify(photos);
   let annualChanged=false;const savedAnnual=annual.map(a=>{const previous=data.annual.find((item:any)=>item.personId===id&&item.year===a.year)||newAnnual(id,a.year);const changed=(a.status==='No corresponde')!==(previous.status==='No corresponde')||annualFields.some(f=>a[f]!==((previous as any)[f]));annualChanged||=changed;let status=previous.status;if(changed)status=a.status==='No corresponde'?'No corresponde':input.submit?'Enviado para revisión':'En proceso';else if(input.submit&&!['Revisado','No corresponde'].includes(status)&&hasAnnual(a))status='Enviado para revisión';return {...a,status};});
   const participantChanged=profileChanged||photosChanged||annualChanged;
+  const previouslySubmitted=p.informationStatus==='Enviado para revisión'||data.annual.some((item:any)=>item.personId===id&&item.status==='Enviado para revisión');
   const informationStatus=profileChanged?(input.submit?'Enviado para revisión':'En proceso'):input.submit&&!['Completo','Revisado'].includes(p.informationStatus)?'Enviado para revisión':p.informationStatus;
   const photoStatus=photosChanged?(photos.length?'En proceso':'Sin empezar'):p.photoStatus;
   const reportStatus=participantChanged&&p.reportStatus==='Completo'?'Requiere seguimiento':p.reportStatus;
@@ -33,7 +42,7 @@ export async function PUT(req:Request,{params}:{params:Promise<{id:string}>}){
   data.annual=[...data.annual.filter((a:any)=>a.personId!==id),...savedAnnual];
   data.photos=[...data.photos.filter((p:any)=>p.personId!==id),...photos];data.personVersions={...data.personVersions,[id]:input.version+1};
   const now=new Date().toISOString();const result=version===0?await env.DB!.prepare('INSERT INTO reports (id,payload,version,updated_at) VALUES (?,?,1,?) ON CONFLICT(id) DO NOTHING').bind('main',JSON.stringify(data),now).run():await env.DB!.prepare('UPDATE reports SET payload = ?, version = ?, updated_at = ? WHERE id = ? AND version = ?').bind(JSON.stringify(data),version+1,now,'main',version).run();
-  if(result.meta.changes)return Response.json({version:input.version+1,informationStatus,photoStatus,reportStatus,annualStatuses:Object.fromEntries(savedAnnual.map(a=>[a.year,a.status])),savedAt:now},{headers:{'Cache-Control':'no-store'}});
+  if(result.meta.changes){if(input.submit&&(participantChanged||!previouslySubmitted))try{await notifySubmission(id,profile.name);}catch(error){console.error('Submission notification failed',error);}return Response.json({version:input.version+1,informationStatus,photoStatus,reportStatus,annualStatuses:Object.fromEntries(savedAnnual.map(a=>[a.year,a.status])),savedAt:now},{headers:{'Cache-Control':'no-store'}});}
  }
  return Response.json({error:'Hay varias personas guardando. Inténtalo de nuevo en unos segundos.'},{status:409});
  }catch(e){console.error('Participant save failed',e);return Response.json({error:'No se pudieron guardar tus datos. Inténtalo de nuevo.'},{status:500});}

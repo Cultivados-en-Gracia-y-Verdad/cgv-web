@@ -8,6 +8,9 @@ import { connectorPreview } from "./scripts/vite/connector-preview-plugin.mjs";
 
 const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
   "00000000-0000-4000-8000-000000000000";
+// Keep local Miniflare on the newest date supported by the installed workerd.
+// The deployed service uses its own current date in wrangler.form-service.jsonc.
+const COMPATIBILITY_DATE = "2026-05-22";
 
 const { d1, r2 } = hostingConfig;
 
@@ -17,6 +20,7 @@ const managedLinux = readExecutionProfile() === "managed-linux";
 
 const localBindingConfig = {
   main: "./worker/index.ts",
+  compatibility_date: COMPATIBILITY_DATE,
   compatibility_flags: ["nodejs_compat"],
   d1_databases: d1
     ? [
@@ -80,7 +84,7 @@ export default defineConfig(async ({ command }) => {
                   config: {
                     name: "sites-connector-preview",
                     main: "./scripts/connector-preview/worker.mjs",
-                    compatibility_date: "2026-05-15",
+                    compatibility_date: COMPATIBILITY_DATE,
                   },
                 },
               ],

@@ -15,6 +15,8 @@
     "site:prepare": "node scripts/generate-public-site.mjs",
     "sync:pull": "node scripts/sync-pull.mjs",
     "sync:push": "node scripts/sync-push.mjs",
+    "deploy:forms:check": "wrangler deploy --dry-run --config wrangler.form-service.jsonc",
+    "deploy:forms": "wrangler deploy --config wrangler.form-service.jsonc",
     "build": "node scripts/run-framework.mjs build",
     "start": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --persist-to .wrangler/state --ip 127.0.0.1 --inspector-port 0",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",

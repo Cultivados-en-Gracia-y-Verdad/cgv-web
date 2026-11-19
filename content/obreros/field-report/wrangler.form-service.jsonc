@@ -1,0 +1,39 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "cgv-mensajeros-formularios",
+  "main": "dist/server/index.js",
+  "compatibility_date": "2026-11-19",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "no_bundle": true,
+  "upload_source_maps": true,
+  "rules": [
+    {
+      "type": "ESModule",
+      "globs": ["**/*.js", "**/*.mjs"]
+    }
+  ],
+  "assets": {
+    "directory": "dist/client"
+  },
+  "vars": {
+    "ADMIN_LOCAL_ONLY": "true",
+    "PUBLIC_FORM_ORIGIN": "https://cgv-mensajeros-formularios.johnwry.workers.dev"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "cgv-mensajeros-formularios",
+      "database_id": "911113b8-db84-430d-a00b-558f837dc5e1"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "BUCKET",
+      "bucket_name": "cgv-mensajeros-imagenes"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}

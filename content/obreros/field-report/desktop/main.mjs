@@ -113,7 +113,9 @@ async function prepareSite(){
 async function deployForms(){
  if(deployTask)return deployTask;
  deployTask=(async()=>{
-  const wrangler='node_modules/wrangler/wrangler-dist/cli.js';
+  // Use Wrangler's supported Node launcher. Invoking the bundled cli.js
+  // directly makes Wrangler interpret its own file path as a CLI argument.
+  const wrangler='node_modules/wrangler/bin/wrangler.js';
   await runSystemNode(wrangler,['whoami']);
   await runNodeScript('tests/core.mjs');
   await runNodeScript('node_modules/typescript/bin/tsc',['--noEmit']);

@@ -147,6 +147,7 @@ enableRobotsTXT = true
     pre = "<i class='fas fa-2x fa-envelope'></i>"
 
 [params]
+    public_site_origin = "https://www.discipuladocgv.org"
     viewMorePostLink = "/blog/"
     author = "CGV"
     defaultKeywords = ["CGV", "Cultivados en Gracia y Verdad", "Discipulado CGV", "discipulado bíblico", "currículo bíblico", "formación bíblica", "iglesia local", "Centros de Capacitación"]

@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.Language.Locale }}">
 {{ $socialDescription := or .Params.summary .Params.bio }}
+{{ $publicOrigin := strings.TrimSuffix "/" (.Site.Params.public_site_origin | default "https://www.discipuladocgv.org") }}
+{{ $publicPageURL := printf "%s%s" $publicOrigin .RelPermalink }}
 <head>{{ partial "headers.html" . }}{{ partial "custom_headers.html" . }}
+  <link rel="canonical" href="{{ $publicPageURL }}">
   <meta property="og:type" content="profile">
   <meta property="og:title" content="{{ .Title }} · Mensajeros CGV">
   <meta property="og:description" content="{{ $socialDescription | plainify | truncate 180 }}">
-  <meta property="og:url" content="{{ .Permalink }}">
-  {{ with .Params.heroImage }}<meta property="og:image" content="{{ . | absURL }}"><meta property="og:image:alt" content="Foto principal de {{ $.Title }}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{{ . | absURL }}">{{ end }}
+  <meta property="og:url" content="{{ $publicPageURL }}">
+  {{ with .Params.heroImage }}{{ $socialImage := printf "%s%s?v=%s" $publicOrigin . ($.Params.publishedAt | default "1" | urlquery) }}<meta property="og:image" content="{{ $socialImage }}"><meta property="og:image:secure_url" content="{{ $socialImage }}"><meta property="og:image:alt" content="Foto principal de {{ $.Title }}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{{ $socialImage }}">{{ end }}
 </head>
 <body><div id="all">{{ partial "top.html" . }}{{ partial "nav.html" . }}
 {{ $photos := .Params.photos }}{{ $hero := .Params.heroImage }}{{ if not $hero }}{{ with $photos }}{{ $hero = (index . 0).src }}{{ end }}{{ end }}

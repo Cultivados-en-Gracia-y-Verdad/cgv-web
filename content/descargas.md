@@ -33,11 +33,13 @@ image: "img/cgv-logo.jpg"
     CGV Presenter funciona offline. Después de instalarlo, los cursos pueden descargarse y usarse localmente sin depender del internet durante la enseñanza.
   </p>
 
-  <p>
+  <section class="download-manual">
+    <h2>Manual de CGV Presenter</h2>
+    <p>Consulte las instrucciones de instalación, presentación, cursos, cuestionarios y uso sin conexión.</p>
     <a class="download-button" href="/cgv-presenter/">
-      Ver manual de uso
+      Abrir el manual de CGV Presenter
     </a>
-  </p>
+  </section>
 </section>
 
 <script>

@@ -83,7 +83,8 @@ enableRobotsTXT = true
 [[menu.main]]
     name = "ROOTS"
     url = "/ROOTS/"
-    weight = 6
+    parent = "curriculo"
+    weight = 3
 
 [[menu.main]]
     name = "Reader"
@@ -120,12 +121,6 @@ enableRobotsTXT = true
     url = "/descargas/"
     parent = "participa"
     weight = 4
-
-[[menu.main]]
-    name = "Manual CGV Presenter"
-    url = "/cgv-presenter/"
-    parent = "participa"
-    weight = 5
 
 [[menu.main]]
     name = "Radio"

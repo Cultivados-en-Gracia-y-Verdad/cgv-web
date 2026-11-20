@@ -1,1 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mensajeros CGV on Discipulado CGV</title><link>https://discipuladocgv.org/mensajeros/</link><description>Recent content in Mensajeros CGV on Discipulado CGV</description><generator>Hugo</generator><language>es</language><atom:link href="https://discipuladocgv.org/mensajeros/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Mensajeros CGV on Discipulado CGV</title>
+		<link>http://localhost:1313/mensajeros/</link>
+		<description>Recent content in Mensajeros CGV on Discipulado CGV</description>
+		<generator>Hugo</generator>
+		<language>es</language>
+		
+		
+		
+		
+			<atom:link href="http://localhost:1313/mensajeros/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Naiot y Ane</title>
+				<link>http://localhost:1313/mensajeros/P05/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/mensajeros/P05/</guid>
+				<description>Poder confiar a otros el evangelio por medio de la enseñanza de las escrituras, sabiendo que eso es lo que nos capacita para ser instrumentos, ya que tenemos este tesoro en vasos de barro, pero la excelencia del poder es de Dios. La iglesia está proveyendo todo lo que puede a los que trabajamos en la ensñenaza, es decir los almuerzos y una ofrenda semanal para ciertas necesidades. Pueden participar en este sostenimiento si Dios lo permite y poder ser parte de que dediquemos completamente el tiempo a la enseñanza</description>
+			</item>
+	</channel>
+</rss>

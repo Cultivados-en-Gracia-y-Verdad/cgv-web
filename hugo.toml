@@ -1,5 +1,5 @@
 baseURL = 'https://discipuladocgv.org/'
-languageCode = 'es'
+locale = 'es'
 title = 'Discipulado CGV'
 theme = "hugo-universal-theme"
 PublishDir = "docs"
@@ -8,6 +8,7 @@ ShowBreadCrumbs = "true"
 disqusShortname = "cgv"
 googleAnalytics = ""
 summaryLength = 70
+ignoreFiles = ['content[/\\]obreros[/\\]field-report[/\\]']
 
 [markup.goldmark.renderer]
  unsafe = true

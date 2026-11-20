@@ -136,6 +136,10 @@
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url><url>
+    <loc>http://localhost:1313/mensajeros/P08/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url><url>
     <loc>http://localhost:1313/authors/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

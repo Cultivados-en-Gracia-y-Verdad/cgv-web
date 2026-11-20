@@ -15,7 +15,7 @@
   "fundingLabel": "Pueden ser parte orando por el trabajo realizado, por las personas involucradas, por nosotros que enseñamos, por la iglesia local \"IBM\" donde participamos, que podamos seguir enfocados en el Evangelio pues ese es nuestro deseo también, para que más personas puedan conocer El Evangelio de la gracia.",
   "fundingUrl": "",
   "fundingImage": "/img/mensajeros/p08/3fd07926-add0-417a-ad6d-b7a2e36ae417.jpg",
-  "heroImage": "/img/mensajeros/p08/5e1a9bea-e389-4d44-af17-2d672cf2d3d2.jpg",
+  "heroImage": "/img/mensajeros/p08/05aa21e0-8808-4127-b695-504484cff7a7.jpg",
   "photos": [
     {
       "id": "IMG-094b2968",
@@ -39,19 +39,12 @@
       "credit": ""
     },
     {
-      "id": "IMG-5da5e31c",
-      "src": "/img/mensajeros/p08/fb9c5e4b-d543-43a9-bd85-5c783537f04a.jpg",
-      "caption": "Estudiando la Palabra en Tarija",
-      "location": "",
-      "credit": ""
-    },
-    {
-      "id": "IMG-6e989e43",
-      "src": "/img/mensajeros/p08/c1ed8e04-cf02-41e4-9d92-c1d474a0fcb5.jpg",
-      "caption": "Bautismo en Tupiza",
-      "location": "",
+      "id": "IMG-33708005",
+      "src": "/img/mensajeros/p08/ff314011-a024-4506-857c-3ee350f80246.jpg",
+      "caption": "Graduacion de los estudiantes en el Discipulado intensivo junto a los maestros y todos los participantes del ministerio",
+      "location": "Tupiza",
       "credit": ""
     }
   ],
-  "publishedAt": "2026-11-20T19:38:51.745Z"
+  "publishedAt": "2026-11-20T19:49:28.029Z"
 }

@@ -11,6 +11,7 @@ let localServer=null;
 let syncTask=null;
 let pushTask=null;
 let prepareTask=null;
+let deployTask=null;
 let mainWindow=null;
 
 function parseValue(text,name){
@@ -66,6 +67,21 @@ function runNodeScript(script,args=[]){
  });
 }
 
+function runSystemNode(script,args=[]){
+ return new Promise((resolve,reject)=>{
+  const child=spawn(process.env.npm_node_execpath||'node',[path.join(appRoot,script),...args],{
+   cwd:appRoot,
+   env:{...process.env,LOCAL_ADMIN_ORIGIN:localOrigin},
+   stdio:['ignore','pipe','pipe'],
+  });
+  let output='',error='';
+  child.stdout.on('data',data=>{output+=data;});
+  child.stderr.on('data',data=>{error+=data;});
+  child.once('error',reject);
+  child.once('exit',code=>code===0?resolve(output.trim()):reject(new Error((error||output||'No se pudo ejecutar Wrangler.').trim())));
+ });
+}
+
 async function syncPull(){
  if(syncTask)return syncTask;
  syncTask=runNodeScript('scripts/sync-pull.mjs')
@@ -92,6 +108,21 @@ async function prepareSite(){
   return {ok:true,message:message||'Archivos públicos preparados.'};
  })().catch(error=>({ok:false,message:error instanceof Error?error.message:'No se pudieron preparar los archivos públicos.'})).finally(()=>{prepareTask=null;});
  return prepareTask;
+}
+
+async function deployForms(){
+ if(deployTask)return deployTask;
+ deployTask=(async()=>{
+  const wrangler='node_modules/wrangler/wrangler-dist/cli.js';
+  await runSystemNode(wrangler,['whoami']);
+  await runNodeScript('tests/core.mjs');
+  await runNodeScript('node_modules/typescript/bin/tsc',['--noEmit']);
+  await runNodeScript('scripts/run-framework.mjs',['build']);
+  await runSystemNode(wrangler,['deploy','--dry-run','--config','wrangler.form-service.jsonc']);
+  const message=await runSystemNode(wrangler,['deploy','--config','wrangler.form-service.jsonc']);
+  return {ok:true,message:message||'El servicio de formularios fue actualizado.'};
+ })().catch(error=>({ok:false,message:error instanceof Error?error.message:'No se pudo actualizar el servicio de formularios.'})).finally(()=>{deployTask=null;});
+ return deployTask;
 }
 
 async function createWindow(){
@@ -124,6 +155,7 @@ async function createWindow(){
 ipcMain.handle('cgv:sync-pull',syncPull);
 ipcMain.handle('cgv:sync-push',syncPush);
 ipcMain.handle('cgv:prepare-site',prepareSite);
+ipcMain.handle('cgv:deploy-forms',deployForms);
 app.on('before-quit',()=>{app.isQuitting=true;if(localServer&&!localServer.killed)localServer.kill('SIGTERM');});
 app.whenReady().then(createWindow).catch(error=>{dialog.showErrorBox('No se pudo abrir Mensajeros CGV',error instanceof Error?error.message:String(error));app.quit();});
 app.on('window-all-closed',()=>{if(process.platform!=='darwin')app.quit();});

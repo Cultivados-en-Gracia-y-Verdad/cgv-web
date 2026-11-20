@@ -25,6 +25,12 @@ export async function uploadImage(base,headers,endpoint,personId,filename,type,b
  const form=new FormData();form.set('personId',personId);form.set('file',new File([bytes],filename,{type}));const response=await fetch(base+endpoint,{method:'POST',headers,body:form});const result=await response.json().catch(()=>({}));if(!response.ok)throw new Error(`No se pudo sincronizar la imagen ${filename} (${response.status}): ${result.error||'respuesta no reconocida'}`);return result.id;
 }
 export const clone=value=>JSON.parse(JSON.stringify(value));
+export function mergeRemotePhotos(localPhotos,remotePhotos,{localChanged=false,heroPhotoId='',publishedPhotoIds=[]}={}){
+ if(!localChanged)return remotePhotos.map(clone);
+ const localById=new Map(localPhotos.map(photo=>[photo.id,photo])),protectedIds=new Set([heroPhotoId,...publishedPhotoIds].filter(Boolean));
+ const merged=remotePhotos.map(photo=>{const local=localById.get(photo.id);return local?{...clone(photo),imageId:local.imageId,externalUrl:local.externalUrl,filename:local.filename}:clone(photo);});
+ const incomingIds=new Set(merged.map(photo=>photo.id));for(const photo of localPhotos)if(!incomingIds.has(photo.id)&&(photo.permission==='Confirmado'||protectedIds.has(photo.id)))merged.push(clone(photo));return merged;
+}
 export function replaceImageIds(data,map){const replace=id=>id?(map.get(id)||id):'';for(const person of data.people)person.fundingImageId=replace(person.fundingImageId);for(const photo of data.photos)photo.imageId=replace(photo.imageId);for(const profile of Object.values(data.publishedProfiles||{})){profile.fundingImageId=replace(profile.fundingImageId);for(const photo of profile.photos)photo.imageId=replace(photo.imageId);}return data;}
 export function allImages(data){const owners=new Map();for(const person of data.people)if(person.fundingImageId)owners.set(person.fundingImageId,person.id);for(const photo of data.photos)if(photo.imageId)owners.set(photo.imageId,photo.personId);for(const profile of Object.values(data.publishedProfiles||{})){if(profile.fundingImageId)owners.set(profile.fundingImageId,profile.id);for(const photo of profile.photos)if(photo.imageId)owners.set(photo.imageId,profile.id);}return owners;}
 export {getReport};

@@ -14,7 +14,7 @@ const modelUrl=dataUrl(await fs.readFile(root+'/app/model.ts','utf8'));
 const accessUrl=dataUrl((await fs.readFile(root+'/app/access.ts','utf8')).replace(/import \{env\} from 'cloudflare:workers';/,'const env=globalThis.__env;'));
 const model=await import(modelUrl),access=await import(accessUrl);
 async function route(path){let s=await fs.readFile(root+path,'utf8');s=s.replace(/import \{env\} from 'cloudflare:workers';/,'const env=globalThis.__env;').replace(/from '(?:\.\.\/)+model'/g,"from '"+modelUrl+"'").replace(/from '(?:\.\.\/)+access'/g,"from '"+accessUrl+"'");return import(dataUrl(s));}
-const report=await route('/app/api/report/route.ts'),participant=await route('/app/api/participant/[id]/route.ts'),images=await route('/app/api/images/route.ts'),getImage=await route('/app/api/images/[id]/route.ts'),getPublicImage=await route('/app/api/public-images/[id]/route.ts'),invites=await route('/app/api/invitations/route.ts');
+const report=await route('/app/api/report/route.ts'),participant=await route('/app/api/participant/[id]/route.ts'),images=await route('/app/api/images/route.ts'),importImages=await route('/app/api/images/import/route.ts'),getImage=await route('/app/api/images/[id]/route.ts'),getPublicImage=await route('/app/api/public-images/[id]/route.ts'),invites=await route('/app/api/invitations/route.ts');
 const base='https://test.example';
 const adminCookie='informe_admin='+await access.sign('admin');
 const login=await route('/app/administrar/[token]/route.ts');
@@ -63,14 +63,17 @@ const up=await images.POST(req('/api/images',{method:'POST',headers:{Authorizati
 assert.equal((await getImage.GET(req('/api/images/'+img.id),params(img.id))).status,403);
 assert.equal((await getImage.GET(req('/api/images/'+img.id+'?p=P02&t='+token2),params(img.id))).status,403);
 const got=await getImage.GET(req('/api/images/'+img.id+'?p=P01&t='+token1),params(img.id));assert.equal(got.status,200);assert.equal(got.headers.get('Content-Type'),'image/png');
+const importId=crypto.randomUUID(),importBytes=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aL1sAAAAASUVORK5CYII=','base64'),importHeaders={...adminHeaders,'Content-Type':'application/octet-stream','X-CGV-Upload-Id':importId,'X-CGV-Person-Id':'P01','X-CGV-Filename':'legado.png','X-CGV-File-Type':'image/png','X-CGV-Part-Total':'2'};
+assert.equal((await importImages.POST(req('/api/images/import',{method:'POST',headers:{...importHeaders,'X-CGV-Part-Index':'0'},body:importBytes.subarray(0,30)}))).status,200);const importedResponse=await importImages.POST(req('/api/images/import',{method:'POST',headers:{...importHeaders,'X-CGV-Part-Index':'1'},body:importBytes.subarray(30)}));assert.equal(importedResponse.status,200);const imported=await importedResponse.json();assert.equal((await getImage.GET(adminReq('/api/images/'+imported.id),params(imported.id))).status,200);
 assert.equal((await getPublicImage.GET(req('/api/public-images/'+img.id),params(img.id))).status,404);
 a=await(await getP('P01',token1)).json();a.person.fundingImageId=img.id;a.person.fundingUrl='https://example.org/apoyo';assert.equal((await putP('P01',token1,a)).status,200);
 b=await(await getP('P02',token2)).json();b.person.fundingImageId=img.id;assert.equal((await putP('P02',token2,b)).status,403);
 a=await(await getP('P01',token1)).json();assert.equal((await putP('P01',token1,{...a,submit:true})).status,400);a.annual.forEach((r,i)=>{if(i>0)r.status='No corresponde';});
+assert.equal((await putP('P01',token1,{...a,submit:true})).status,400);a.person.doctrinalAccepted=true;
 assert.equal((await putP('P01',token1,{...a,submit:true})).status,200);
 assert.equal(emails.length,1);assert.equal(emails[0].to,'admin@example.org');assert.ok(emails[0].text.includes('Actualizar respuestas'));
 let submittedAgain=await(await getP('P01',token1)).json();assert.equal((await putP('P01',token1,{...submittedAgain,submit:true})).status,200);assert.equal(emails.length,1);
-now=await(await report.GET(adminReq('/api/report'))).json();assert.equal(now.data.people[0].informationStatus,'Enviado para revisión');
+now=await(await report.GET(adminReq('/api/report'))).json();assert.equal(now.data.people[0].informationStatus,'Enviado para revisión');assert.equal(now.data.people[0].doctrinalAccepted,true);assert.ok(Date.parse(now.data.people[0].doctrinalAcceptedAt));
 now.data.publishedProfiles={P01:{id:'P01',name:now.data.people[0].name,role:now.data.people[0].role,location:now.data.people[0].location,bio:now.data.people[0].bio,summary:now.data.people[0].summary,fundingLabel:now.data.people[0].fundingLabel||'',fundingUrl:now.data.people[0].fundingUrl||'',fundingImageId:img.id,photos:[],publishedAt:new Date().toISOString()}};
 assert.equal((await report.PUT(adminReq('/api/report','PUT',{data:now.data,version:now.version}))).status,200);assert.equal((await getPublicImage.GET(req('/api/public-images/'+img.id),params(img.id))).status,200);
 now=await(await report.GET(adminReq('/api/report'))).json();

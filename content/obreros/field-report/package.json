@@ -10,6 +10,7 @@
     "install:ci": "node scripts/install-ci.mjs",
     "dev": "node scripts/local-dev.mjs",
     "desktop": "electron .",
+    "desktop:install": "node scripts/install-desktop-launcher.mjs",
     "dev:app": "node scripts/run-framework.mjs dev",
     "data:watch": "node scripts/watch-local-data.mjs",
     "data:export": "node scripts/export-local-data.mjs",

@@ -92,9 +92,12 @@ async function createWindow(){
  });
  mainWindow=window;
  window.on('closed',()=>{mainWindow=null;});
+ window.center();
+ window.show();
  window.webContents.setWindowOpenHandler(({url})=>{if(/^https?:\/\//.test(url))void shell.openExternal(url);return {action:'deny'};});
  window.webContents.on('will-navigate',(event,url)=>{if(!url.startsWith(localOrigin)){event.preventDefault();if(/^https?:\/\//.test(url))void shell.openExternal(url);}});
  await window.loadURL(`${localOrigin}/administrar/${token}`);
+ window.focus();
 }
 
 ipcMain.handle('cgv:sync-pull',syncPull);

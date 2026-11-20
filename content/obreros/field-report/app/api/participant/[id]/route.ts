@@ -42,7 +42,7 @@ export async function PUT(req:Request,{params}:{params:Promise<{id:string}>}){
   const informationStatus=profileChanged?(input.submit?'Enviado para revisión':'En proceso'):input.submit&&!['Completo','Revisado'].includes(p.informationStatus)?'Enviado para revisión':p.informationStatus;
   const photoStatus=photosChanged?(photos.length?'En proceso':'Sin empezar'):p.photoStatus;
   const reportStatus=participantChanged&&p.reportStatus==='Completo'?'Requiere seguimiento':p.reportStatus;
-  data.people=data.people.map((person:any)=>person.id===id?{...person,...savedProfile,informationStatus,photoStatus,reportStatus}:person);
+  data.people=data.people.map((person:any)=>person.id===id?{...person,...savedProfile,heroPhotoId:photos.some(photo=>photo.id===person.heroPhotoId&&photo.permission==='Confirmado')?person.heroPhotoId:'',informationStatus,photoStatus,reportStatus}:person);
   data.annual=[...data.annual.filter((a:any)=>a.personId!==id),...savedAnnual];
   data.photos=[...data.photos.filter((p:any)=>p.personId!==id),...photos];data.personVersions={...data.personVersions,[id]:input.version+1};
   const now=new Date().toISOString();const result=version===0?await env.DB!.prepare('INSERT INTO reports (id,payload,version,updated_at) VALUES (?,?,1,?) ON CONFLICT(id) DO NOTHING').bind('main',JSON.stringify(data),now).run():await env.DB!.prepare('UPDATE reports SET payload = ?, version = ?, updated_at = ? WHERE id = ? AND version = ?').bind(JSON.stringify(data),version+1,now,'main',version).run();

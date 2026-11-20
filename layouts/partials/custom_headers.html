@@ -1,2 +1,5 @@
 <link rel="stylesheet" href="{{ "css/custom_style.css" | relURL }}">
 <link rel="stylesheet" href="{{ "css/cgv_typography.css" | relURL }}">
+{{ if or (eq .Type "mensajeros") (eq .Section "mensajeros") }}
+<link rel="stylesheet" href="{{ "css/mensajeros.css" | relURL }}">
+{{ end }}

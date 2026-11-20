@@ -9,7 +9,7 @@
     <div class="mensajero-cover-copy"><p class="mensajero-kicker">{{ or .Params.role "SIRVIENDO CON EL EVANGELIO" }}</p><h1>{{ .Title }}</h1>{{ with .Params.role }}<h2>{{ . }}</h2>{{ end }}{{ with .Params.location }}<p class="mensajero-place"><i class="fas fa-map-marker-alt" aria-hidden="true"></i>{{ . }}</p>{{ end }}<p class="mensajero-lead">{{ .Params.bio }}</p><div class="mensajero-cover-actions"><a href="#historia">Conoce mi historia</a>{{ if or .Params.fundingImage .Params.fundingUrl }}<a class="outline" href="#apoyar">Apoyar mi ministerio</a>{{ end }}</div></div>
   </section>
   <div class="mensajero-cgv-band"><img src="{{ "img/cgv-logo-small.jpg" | relURL }}" alt="CGV"><span></span><div><strong>Con el acompañamiento de CGV</strong><small>Formación bíblica · Discipulado · Iglesia local</small></div></div>
-  <div class="mensajero-content-grid">
+  <div class="mensajero-content-grid{{ if not $photos }} no-gallery{{ end }}">
     <div class="mensajero-main-column">
       <section id="historia" class="mensajero-section"><h2>Mi historia y llamado</h2><i class="section-rule"></i><p>{{ or .Params.summary .Params.bio }}</p>{{ with .Params.role }}<div class="mensajero-tags"><span>{{ . }}</span>{{ with $.Params.location }}<span>{{ . }}</span>{{ end }}</div>{{ end }}</section>
       {{ with $photos }}<section class="mensajero-section mensajero-gallery"><h2>El ministerio en imágenes</h2><i class="section-rule"></i><div>{{ range . }}<figure><img src="{{ .src | safeURL }}" alt="{{ or .caption "Fotografía del ministerio" }}" loading="lazy"><figcaption>{{ .caption }}{{ with .location }}<span>{{ . }}</span>{{ end }}</figcaption></figure>{{ end }}</div></section>{{ end }}

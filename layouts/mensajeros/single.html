@@ -2,7 +2,7 @@
 <html lang="{{ .Site.Language.Locale }}">
 <head>{{ partial "headers.html" . }}{{ partial "custom_headers.html" . }}</head>
 <body><div id="all">{{ partial "top.html" . }}{{ partial "nav.html" . }}
-{{ $photos := .Params.photos }}{{ $hero := "" }}{{ with $photos }}{{ $hero = (index . 0).src }}{{ end }}
+{{ $photos := .Params.photos }}{{ $hero := .Params.heroImage }}{{ if not $hero }}{{ with $photos }}{{ $hero = (index . 0).src }}{{ end }}{{ end }}
 <main class="mensajero-profile">
   <div class="mensajero-crumb"><a href="/">Inicio</a><span>/</span><a href="/mensajeros/">Mensajeros</a><span>/</span><strong>{{ .Title }}</strong><em>PERFIL VERIFICADO</em></div>
   <section class="mensajero-cover{{ if not $hero }} no-photo{{ end }}"{{ with $hero }} style="background-image:linear-gradient(90deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.91) 38%,rgba(255,255,255,.2) 70%),url('{{ . | safeURL }}')"{{ end }}>
@@ -12,7 +12,7 @@
   <div class="mensajero-content-grid{{ if not $photos }} no-gallery{{ end }}">
     <div class="mensajero-main-column">
       <section id="historia" class="mensajero-section"><h2>Mi historia y llamado</h2><i class="section-rule"></i><p>{{ or .Params.summary .Params.bio }}</p>{{ with .Params.role }}<div class="mensajero-tags"><span>{{ . }}</span>{{ with $.Params.location }}<span>{{ . }}</span>{{ end }}</div>{{ end }}</section>
-      {{ with $photos }}<section class="mensajero-section mensajero-gallery"><h2>El ministerio en imágenes</h2><i class="section-rule"></i><div>{{ range . }}<figure><img src="{{ .src | safeURL }}" alt="{{ or .caption "Fotografía del ministerio" }}" loading="lazy"><figcaption>{{ .caption }}{{ with .location }}<span>{{ . }}</span>{{ end }}</figcaption></figure>{{ end }}</div></section>{{ end }}
+      {{ with $photos }}<section class="mensajero-section mensajero-gallery"><h2>El ministerio en imágenes</h2><i class="section-rule"></i><div>{{ range . }}<figure><a href="{{ .src | safeURL }}" target="_blank" rel="noopener noreferrer" aria-label="Ampliar fotografía"><img src="{{ .src | safeURL }}" alt="{{ or .caption "Fotografía del ministerio" }}" loading="lazy"></a><figcaption>{{ .caption }}{{ with .location }}<span>{{ . }}</span>{{ end }}</figcaption></figure>{{ end }}</div></section>{{ end }}
       <section class="mensajero-prayer"><div aria-hidden="true">♡</div><span></span><section><h2>Oremos juntos</h2><ul><li>Por fruto duradero en este ministerio.</li><li>Por las personas, iglesias y familias que acompaña.</li></ul></section></section>
     </div>
     <aside class="mensajero-side-column">

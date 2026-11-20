@@ -9,6 +9,8 @@ const appRoot=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const localOrigin='http://127.0.0.1:5173';
 let localServer=null;
 let syncTask=null;
+let pushTask=null;
+let prepareTask=null;
 let mainWindow=null;
 
 function parseValue(text,name){
@@ -49,9 +51,9 @@ async function startServer(){
  await waitForServer();
 }
 
-function runNodeScript(script){
+function runNodeScript(script,args=[]){
  return new Promise((resolve,reject)=>{
-  const child=spawn(process.execPath,[path.join(appRoot,script)],{
+  const child=spawn(process.execPath,[path.join(appRoot,script),...args],{
    cwd:appRoot,
    env:{...process.env,ELECTRON_RUN_AS_NODE:'1',LOCAL_ADMIN_ORIGIN:localOrigin},
    stdio:['ignore','pipe','pipe'],
@@ -71,6 +73,25 @@ async function syncPull(){
   .catch(error=>({ok:false,message:error instanceof Error?error.message:'No se pudieron traer las respuestas.'}))
   .finally(()=>{syncTask=null;});
  return syncTask;
+}
+
+async function syncPush(){
+ if(pushTask)return pushTask;
+ pushTask=runNodeScript('scripts/sync-push.mjs',['--confirm'])
+  .then(message=>({ok:true,message:message||'Los formularios privados están actualizados.'}))
+  .catch(error=>({ok:false,message:error instanceof Error?error.message:'No se pudieron actualizar los formularios privados.'}))
+  .finally(()=>{pushTask=null;});
+ return pushTask;
+}
+
+async function prepareSite(){
+ if(prepareTask)return prepareTask;
+ prepareTask=(async()=>{
+  await runNodeScript('scripts/export-local-data.mjs');
+  const message=await runNodeScript('scripts/generate-public-site.mjs');
+  return {ok:true,message:message||'Archivos públicos preparados.'};
+ })().catch(error=>({ok:false,message:error instanceof Error?error.message:'No se pudieron preparar los archivos públicos.'})).finally(()=>{prepareTask=null;});
+ return prepareTask;
 }
 
 async function createWindow(){
@@ -101,6 +122,8 @@ async function createWindow(){
 }
 
 ipcMain.handle('cgv:sync-pull',syncPull);
+ipcMain.handle('cgv:sync-push',syncPush);
+ipcMain.handle('cgv:prepare-site',prepareSite);
 app.on('before-quit',()=>{app.isQuitting=true;if(localServer&&!localServer.killed)localServer.kill('SIGTERM');});
 app.whenReady().then(createWindow).catch(error=>{dialog.showErrorBox('No se pudo abrir Mensajeros CGV',error instanceof Error?error.message:String(error));app.quit();});
 app.on('window-all-closed',()=>{if(process.platform!=='darwin')app.quit();});

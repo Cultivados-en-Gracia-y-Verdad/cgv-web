@@ -6,7 +6,7 @@ const local=await getReport();
 const state=await readState();
 const next=clone(local.data);
 const imageMap=new Map(Object.entries(state.remoteToLocal||{}));
-const editable=['name','role','location','commendingChurch','commendingChurchUrl','bio','summary','graduationYear','fundingLabel','fundingUrl','fundingImageId','doctrinalAccepted','doctrinalAcceptedAt'];
+const editable=['name','role','location','city','country','commendingChurch','commendingChurchUrl','bio','summary','graduationYear','fundingLabel','fundingUrl','fundingImageId','doctrinalAccepted','doctrinalAcceptedAt'];
 const annualContent=annual=>JSON.stringify(['activities','results','measure','value','units','story','challenges','lessons','source'].map(key=>annual?.[key]||''));
 let changedPeople=0;
 

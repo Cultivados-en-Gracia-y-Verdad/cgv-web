@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.Language.Locale }}">
-<head>{{ partial "headers.html" . }}{{ partial "custom_headers.html" . }}</head>
+{{ $socialDescription := or .Params.summary .Params.bio }}
+<head>{{ partial "headers.html" . }}{{ partial "custom_headers.html" . }}
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="{{ .Title }} · Mensajeros CGV">
+  <meta property="og:description" content="{{ $socialDescription | plainify | truncate 180 }}">
+  <meta property="og:url" content="{{ .Permalink }}">
+  {{ with .Params.heroImage }}<meta property="og:image" content="{{ . | absURL }}"><meta property="og:image:alt" content="Foto principal de {{ $.Title }}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{{ . | absURL }}">{{ end }}
+</head>
 <body><div id="all">{{ partial "top.html" . }}{{ partial "nav.html" . }}
 {{ $photos := .Params.photos }}{{ $hero := .Params.heroImage }}{{ if not $hero }}{{ with $photos }}{{ $hero = (index . 0).src }}{{ end }}{{ end }}
 <main class="mensajero-profile">
   <div class="mensajero-crumb"><a href="/">Inicio</a><span>/</span><a href="/mensajeros/">Mensajeros</a><span>/</span><strong>{{ .Title }}</strong><em>PERFIL VERIFICADO</em></div>
   <section class="mensajero-cover{{ if not $hero }} no-photo{{ end }}"{{ with $hero }} style="background-image:linear-gradient(90deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.91) 38%,rgba(255,255,255,.2) 70%),url('{{ . | safeURL }}')"{{ end }}>
-    <div class="mensajero-cover-copy"><p class="mensajero-kicker">{{ or .Params.role "SIRVIENDO CON EL EVANGELIO" }}</p><h1>{{ .Title }}</h1>{{ with .Params.role }}<h2>{{ . }}</h2>{{ end }}{{ with .Params.location }}<p class="mensajero-place"><i class="fas fa-map-marker-alt" aria-hidden="true"></i>{{ . }}</p>{{ end }}<p class="mensajero-lead">{{ .Params.bio }}</p><div class="mensajero-cover-actions"><a href="#historia">Conoce mi historia</a>{{ if or .Params.fundingImage .Params.fundingUrl }}<a class="outline" href="#apoyar">Apoyar mi ministerio</a>{{ end }}</div></div>
+    <div class="mensajero-cover-copy"><p class="mensajero-kicker">{{ or .Params.role "SIRVIENDO CON EL EVANGELIO" }}</p><h1>{{ .Title }}</h1>{{ with .Params.role }}<h2>{{ . }}</h2>{{ end }}{{ if and .Params.city .Params.country }}<p class="mensajero-place"><i class="fas fa-map-marker-alt" aria-hidden="true"></i>{{ .Params.city }}, {{ .Params.country }}</p>{{ else }}{{ with .Params.location }}<p class="mensajero-place"><i class="fas fa-map-marker-alt" aria-hidden="true"></i>{{ . }}</p>{{ end }}{{ end }}<p class="mensajero-lead">{{ .Params.bio }}</p><div class="mensajero-cover-actions"><a href="#historia">Conoce mi historia</a>{{ if or .Params.fundingImage .Params.fundingUrl }}<a class="outline" href="#apoyar">Apoyar mi ministerio</a>{{ end }}</div></div>
   </section>
   <div class="mensajero-cgv-band"><img src="{{ "img/cgv-logo-small.jpg" | relURL }}" alt="CGV"><span></span><div><strong>Con el acompañamiento de CGV</strong><small>Formación bíblica · Discipulado · Iglesia local</small></div></div>
   <div class="mensajero-content-grid{{ if not $photos }} no-gallery{{ end }}">

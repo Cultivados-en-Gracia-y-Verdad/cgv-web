@@ -6,6 +6,8 @@
   "mensajeroId": "P05",
   "role": "Pastor Maestro ",
   "location": "Iglesia Yo soy",
+  "city": "Cochabamba",
+  "country": "Bolivia",
   "commendingChurch": "Yo Soy",
   "commendingChurchUrl": "",
   "bio": "Como iglesia estamos dedicados 100% al discipulado. Durante la semana de Lunes a Viernes enseñando la Palabra de 8am a 5pm a hermanos que se están capacitando de forma intensiva en la Palabra. Durante las noches y fines de semana a hermanos que no tienen todo el tiempo para estar de 8 a 5, seguimos enseñando la Palabra. Al mismo tiempo damos oportunidad a los hermanos de involucrarse en la enseñanza a medida que van siendo capacitados, acompañándolos en distintos grupos de estudios, o estudios intensivos en las noches a otros hermanos. ",
@@ -30,5 +32,5 @@
       "credit": ""
     }
   ],
-  "publishedAt": "2026-11-20T09:31:13.979Z"
+  "publishedAt": "2026-11-20T11:26:39.776Z"
 }

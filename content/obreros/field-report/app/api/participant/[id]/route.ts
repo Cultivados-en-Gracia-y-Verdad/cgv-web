@@ -17,7 +17,7 @@ export async function PUT(req:Request,{params}:{params:Promise<{id:string}>}){
  const raw=await req.text();if(raw.length>1000000)return Response.json({error:'La información es demasiado extensa.'},{status:413});const input=JSON.parse(raw);
  const text=(v:any,n=30000)=>typeof v==='string'&&v.length<=n;
  if(!input.person||!Array.isArray(input.annual)||input.annual.length<1||input.annual.length>60||!Array.isArray(input.photos)||input.photos.length>300||!Number.isInteger(input.version))return Response.json({error:'Revisa la información del formulario.'},{status:400});
- const fields=['name','role','location','commendingChurch','commendingChurchUrl','bio','summary','graduationYear','fundingLabel','fundingUrl','fundingImageId'];const profile:any={};for(const f of fields){const v=input.person[f]??'';if(!text(v))return Response.json({error:'Revisa los datos personales.'},{status:400});profile[f]=v;}
+ const fields=['name','role','location','city','country','commendingChurch','commendingChurchUrl','bio','summary','graduationYear','fundingLabel','fundingUrl','fundingImageId'];const profile:any={};for(const f of fields){const v=input.person[f]??'';if(!text(v))return Response.json({error:'Revisa los datos personales.'},{status:400});profile[f]=v;}
  profile.doctrinalAccepted=input.person.doctrinalAccepted===true;
  if(profile.graduationYear&&!/^(19|20|21)\d{2}$/.test(profile.graduationYear))return Response.json({error:'Indica un año de graduación válido.'},{status:400});
  if(profile.fundingUrl&&!/^https?:\/\//i.test(profile.fundingUrl))return Response.json({error:'El enlace de donaciones debe comenzar con https://.'},{status:400});

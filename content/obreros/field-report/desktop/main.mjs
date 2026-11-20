@@ -93,7 +93,15 @@ async function syncPull(){
 
 async function syncPush(){
  if(pushTask)return pushTask;
- pushTask=runNodeScript('scripts/sync-push.mjs',['--confirm'])
+ pushTask=(async()=>{
+  try{return await runNodeScript('scripts/sync-push.mjs',['--confirm']);}
+  catch(error){
+   const message=error instanceof Error?error.message:String(error);
+   if(!/respuestas remotas nuevas|nuevas respuestas/i.test(message))throw error;
+   await runNodeScript('scripts/sync-pull.mjs');
+   return await runNodeScript('scripts/sync-push.mjs',['--confirm']);
+  }
+ })()
   .then(message=>({ok:true,message:message||'Los formularios privados están actualizados.'}))
   .catch(error=>({ok:false,message:error instanceof Error?error.message:'No se pudieron actualizar los formularios privados.'}))
   .finally(()=>{pushTask=null;});

@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>Daniel - El reino de los hombres, dado y quitado on Discipulado CGV</title>
-		<link>http://localhost:56874/courses/daniel/</link>
+		<link>http://localhost:56349/courses/daniel/</link>
 		<description>Recent content in Daniel - El reino de los hombres, dado y quitado on Discipulado CGV</description>
 		<generator>Hugo</generator>
 		<language>es</language>
@@ -10,6 +10,6 @@
 		
 		
 		
-			<atom:link href="http://localhost:56874/courses/daniel/index.xml" rel="self" type="application/rss+xml" />
+			<atom:link href="http://localhost:56349/courses/daniel/index.xml" rel="self" type="application/rss+xml" />
 	</channel>
 </rss>

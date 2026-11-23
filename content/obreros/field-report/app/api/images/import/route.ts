@@ -1,5 +1,5 @@
 import {env} from 'cloudflare:workers';
-import {isAdmin,noAccess,sameOrigin} from '../../../access';
+import {isAdmin,participantAccess,noAccess,sameOrigin} from '../../../access';
 
 const chunkLimit=768*1024;
 const fileLimit=50*1024*1024;
@@ -9,13 +9,14 @@ async function bytesOf(object:R2ObjectBody){
  return new Uint8Array(await new Response(object.body).arrayBuffer());
 }
 
-export async function importAuthorized(req:Request){
+export async function importAuthorized(req:Request,participant:string|null=null){
  const uploadId=req.headers.get('x-cgv-upload-id')||'';
  const personId=req.headers.get('x-cgv-person-id')||'';
  const filename=req.headers.get('x-cgv-filename')||'imagen';
  const declaredType=req.headers.get('x-cgv-file-type')||'';
  const index=Number(req.headers.get('x-cgv-part-index'));
  const total=Number(req.headers.get('x-cgv-part-total'));
+ if(participant&&personId!==participant)return noAccess();
  if(!/^[a-f0-9-]{36}$/i.test(uploadId)||!/^P\d+$/.test(personId)||!Number.isInteger(index)||!Number.isInteger(total)||index<0||index>=total||total<1||total>80)return Response.json({error:'La transferencia de la imagen no es válida.'},{status:400});
  const chunk=new Uint8Array(await req.arrayBuffer());
  if(!chunk.length||chunk.length>chunkLimit)return Response.json({error:'El fragmento de imagen es demasiado grande.'},{status:413});
@@ -36,4 +37,4 @@ export async function importAuthorized(req:Request){
  return Response.json({id,filename});
 }
 
-export async function POST(req:Request){return !sameOrigin(req)||!await isAdmin(req)?noAccess():importAuthorized(req);}
+export async function POST(req:Request){if(!sameOrigin(req))return noAccess();const admin=await isAdmin(req),participant=admin?null:await participantAccess(req);return !admin&&!participant?noAccess():importAuthorized(req,participant);}

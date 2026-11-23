@@ -2,6 +2,7 @@
 import {useEffect,useState} from 'react';
 import {ArrowLeft,ArrowRight,Check,CheckCircle2,ClipboardList,ImagePlus,Loader2,LockKeyhole,QrCode,Save,Send,UserRound,X} from 'lucide-react';
 import {Annual,Person,Photo,newPerson,newAnnual,hasAnnual,personYears,personYearLabel,safeUrl} from './model';
+import {uploadImageFile} from './image-upload';
 type Draft={title:string;startYear:string;person:Person;annual:Annual[];photos:Photo[];version:number};
 const steps=['Mi perfil público','Información interna','Mis fotos','Apoya mi trabajo','Revisar y enviar'];
 const stepHelp=['Escribe los datos que aparecerán en tu perfil público.','Completa un año a la vez. Esta parte es privada.','Sube fotos, descríbelas y confirma si se pueden publicar.','Añade un mensaje, enlace o QR de apoyo. Puedes omitir este paso.','Confirma qué será público y envía todo a CGV para revisión.'];
@@ -24,7 +25,7 @@ export default function Participant({id,token}:{id:string;token:string}){
  }
  async function upload(file:File|null,kind:'photo'|'qr'){
   if(!file||!draft)return;if(file.size>12*1024*1024){setError('Elige una imagen de menos de 12 MB.');return;}setBusy(true);setError('');setMessage('');
-  try{const form=new FormData();form.set('file',file);form.set('personId',id);const r=await fetch('/api/images',{method:'POST',headers,body:form});const result=await r.json() as {id:string;filename:string;error?:string};if(!r.ok)throw new Error(result.error);
+  try{const result=await uploadImageFile(file,id,headers);
    if(kind==='qr')updatePerson('fundingImageId',result.id);else {const photo:Photo={id:'IMG-'+crypto.randomUUID().slice(0,8),personId:id,year,imageId:result.id,externalUrl:'',filename:result.filename,caption:'',date:'',location:'',credit:'',permission:'Pendiente'};setDraft(d=>d?{...d,photos:[...d.photos,photo]}:d);setDirty(true);}
   }catch(e:any){setError(e.message||'No se pudo subir la imagen.');}finally{setBusy(false);}
  }

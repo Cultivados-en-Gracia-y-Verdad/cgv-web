@@ -14,14 +14,15 @@ export async function localImage(access,id){return fetch(access.base+'/api/image
 export async function remoteImage(config,id){return fetch(config.base+'/api/sync/images/'+encodeURIComponent(id),{headers:config.headers});}
 export async function uploadImage(base,headers,endpoint,personId,filename,type,bytes){
  const chunkSize=512*1024;
- if(bytes.byteLength>2*1024*1024){
+ const uploadChunks=async()=>{
   const uploadId=crypto.randomUUID(),total=Math.ceil(bytes.byteLength/chunkSize);let result={};
   for(let index=0;index<total;index++){
    const response=await fetch(base+endpoint+'/import',{method:'POST',headers:{...headers,'Content-Type':'application/octet-stream','X-CGV-Upload-Id':uploadId,'X-CGV-Person-Id':personId,'X-CGV-Filename':filename,'X-CGV-File-Type':type,'X-CGV-Part-Index':String(index),'X-CGV-Part-Total':String(total)},body:bytes.slice(index*chunkSize,Math.min(bytes.byteLength,(index+1)*chunkSize))});
    result=await response.json().catch(()=>({}));if(!response.ok)throw new Error(`No se pudo sincronizar la imagen ${filename} (${response.status}): ${result.error||'respuesta no reconocida'}`);
   }
   if(!result.id)throw new Error('La transferencia de '+filename+' terminó sin crear la imagen local.');return result.id;
- }
+ };
+ if(bytes.byteLength>chunkSize)return uploadChunks();
  const form=new FormData();form.set('personId',personId);form.set('file',new File([bytes],filename,{type}));const response=await fetch(base+endpoint,{method:'POST',headers,body:form});const result=await response.json().catch(()=>({}));if(!response.ok)throw new Error(`No se pudo sincronizar la imagen ${filename} (${response.status}): ${result.error||'respuesta no reconocida'}`);return result.id;
 }
 export const clone=value=>JSON.parse(JSON.stringify(value));

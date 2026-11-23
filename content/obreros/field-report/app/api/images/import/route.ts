@@ -9,8 +9,7 @@ async function bytesOf(object:R2ObjectBody){
  return new Uint8Array(await new Response(object.body).arrayBuffer());
 }
 
-export async function POST(req:Request){
- if(!sameOrigin(req)||!await isAdmin(req))return noAccess();
+export async function importAuthorized(req:Request){
  const uploadId=req.headers.get('x-cgv-upload-id')||'';
  const personId=req.headers.get('x-cgv-person-id')||'';
  const filename=req.headers.get('x-cgv-filename')||'imagen';
@@ -36,3 +35,5 @@ export async function POST(req:Request){
  await Promise.all(Array.from({length:total},(_,part)=>env.BUCKET!.delete(prefix+String(part).padStart(3,'0'))));
  return Response.json({id,filename});
 }
+
+export async function POST(req:Request){return !sameOrigin(req)||!await isAdmin(req)?noAccess():importAuthorized(req);}

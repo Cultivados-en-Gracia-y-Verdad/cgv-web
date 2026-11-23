@@ -144,11 +144,19 @@
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url><url>
+    <loc>http://localhost:56874/mensajeros/P08/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url><url>
     <loc>http://localhost:56874/authors/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url><url>
     <loc>http://localhost:56874/categories/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url><url>
+    <loc>http://localhost:56874/mensajeros/P03/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url><url>
@@ -177,6 +185,10 @@
     <priority>0.7</priority>
   </url><url>
     <loc>http://localhost:56874/mensajeros/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url><url>
+    <loc>http://localhost:56874/mensajeros/P05/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url><url>

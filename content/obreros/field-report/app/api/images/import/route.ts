@@ -12,7 +12,9 @@ async function bytesOf(object:R2ObjectBody){
 export async function importAuthorized(req:Request,participant:string|null=null){
  const uploadId=req.headers.get('x-cgv-upload-id')||'';
  const personId=req.headers.get('x-cgv-person-id')||'';
- const filename=req.headers.get('x-cgv-filename')||'imagen';
+ const encodedFilename=req.headers.get('x-cgv-filename')||'imagen';
+ let filename:string;
+ try{filename=decodeURIComponent(encodedFilename);}catch{return Response.json({error:'El nombre del archivo no es válido.'},{status:400});}
  const declaredType=req.headers.get('x-cgv-file-type')||'';
  const index=Number(req.headers.get('x-cgv-part-index'));
  const total=Number(req.headers.get('x-cgv-part-total'));

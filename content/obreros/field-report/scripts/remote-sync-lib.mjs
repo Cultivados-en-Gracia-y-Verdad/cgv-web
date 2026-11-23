@@ -17,7 +17,7 @@ export async function uploadImage(base,headers,endpoint,personId,filename,type,b
  const uploadChunks=async()=>{
   const uploadId=crypto.randomUUID(),total=Math.ceil(bytes.byteLength/chunkSize);let result={};
   for(let index=0;index<total;index++){
-   const response=await fetch(base+endpoint+'/import',{method:'POST',headers:{...headers,'Content-Type':'application/octet-stream','X-CGV-Upload-Id':uploadId,'X-CGV-Person-Id':personId,'X-CGV-Filename':filename,'X-CGV-File-Type':type,'X-CGV-Part-Index':String(index),'X-CGV-Part-Total':String(total)},body:bytes.slice(index*chunkSize,Math.min(bytes.byteLength,(index+1)*chunkSize))});
+   const response=await fetch(base+endpoint+'/import',{method:'POST',headers:{...headers,'Content-Type':'application/octet-stream','X-CGV-Upload-Id':uploadId,'X-CGV-Person-Id':personId,'X-CGV-Filename':encodeURIComponent(filename),'X-CGV-File-Type':type,'X-CGV-Part-Index':String(index),'X-CGV-Part-Total':String(total)},body:bytes.slice(index*chunkSize,Math.min(bytes.byteLength,(index+1)*chunkSize))});
    result=await response.json().catch(()=>({}));if(!response.ok)throw new Error(`No se pudo sincronizar la imagen ${filename} (${response.status}): ${result.error||'respuesta no reconocida'}`);
   }
   if(!result.id)throw new Error('La transferencia de '+filename+' terminó sin crear la imagen local.');return result.id;

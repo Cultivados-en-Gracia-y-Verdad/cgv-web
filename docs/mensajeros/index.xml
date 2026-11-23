@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>Mensajeros CGV on Discipulado CGV</title>
-		<link>http://localhost:56874/mensajeros/</link>
+		<link>http://localhost:1313/mensajeros/</link>
 		<description>Recent content in Mensajeros CGV on Discipulado CGV</description>
 		<generator>Hugo</generator>
 		<language>es</language>
@@ -10,19 +10,19 @@
 		
 		
 		
-			<atom:link href="http://localhost:56874/mensajeros/index.xml" rel="self" type="application/rss+xml" />
+			<atom:link href="http://localhost:1313/mensajeros/index.xml" rel="self" type="application/rss+xml" />
 			<item>
 				<title>Alan Fabián Valdivia Tórrez</title>
-				<link>http://localhost:56874/mensajeros/P08/</link>
+				<link>http://localhost:1313/mensajeros/P08/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-				<guid>http://localhost:56874/mensajeros/P08/</guid>
+				<guid>http://localhost:1313/mensajeros/P08/</guid>
 				<description>Sencillamente queremos entregar el Evangelio de la gracia de nuestro Señor Jesucristo, esto incluye enseñarlo, así como participar del evangelio en Cristo, esto es a toda persona que tenga el deseo de aprender. Así mismo seguir conociendo aún más de Cristo y el Evangelio. Confiamos en el Poder del Evangelio así como las mismas escrituras lo declaran como lo único y necesario para la iglesia y los creyentes, el impacto de volver a lo que las escrituras dicen únicamente.&#xA;Entendemos que el Señor provee y suple todas las necesidades, de lo cual también podemos ser parte como miembros de un solo cuerpo en Cristo, si su deseo es apoyar lo que se realiza en el Señor, le agradecemos mucho querido hermano o hermana por ser parte.</description>
 			</item>
 			<item>
 				<title>Naiot y Ane</title>
-				<link>http://localhost:56874/mensajeros/P05/</link>
+				<link>http://localhost:1313/mensajeros/P05/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-				<guid>http://localhost:56874/mensajeros/P05/</guid>
+				<guid>http://localhost:1313/mensajeros/P05/</guid>
 				<description>Poder confiar a otros el evangelio por medio de la enseñanza de las escrituras, sabiendo que eso es lo que nos capacita para ser instrumentos, ya que tenemos este tesoro en vasos de barro, pero la excelencia del poder es de Dios. La iglesia está proveyendo todo lo que puede a los que trabajamos en la ensñenaza, es decir los almuerzos y una ofrenda semanal para ciertas necesidades. Pueden participar en este sostenimiento si Dios lo permite y poder ser parte de que dediquemos completamente el tiempo a la enseñanza</description>
 			</item>
 	</channel>

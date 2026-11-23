@@ -15,7 +15,7 @@
   "fundingLabel": "Participando en nuestro sostenimiento como familia dedicada a la enseñanza. ",
   "fundingUrl": "",
   "fundingImage": "/img/mensajeros/p05/f528d23b-45fa-4b69-9a13-b8eb41257f72.png",
-  "heroImage": "/img/mensajeros/p05/cca42dfc-aa6e-404f-9ab5-c7e00ffde81c.jpg",
+  "heroImage": "/img/mensajeros/p05/a3286adf-9eab-48d8-8c9c-a53489143425.jpg",
   "photos": [
     {
       "id": "IMG-741e3460",
@@ -32,5 +32,5 @@
       "credit": ""
     }
   ],
-  "publishedAt": "2026-11-20T11:26:39.776Z"
+  "publishedAt": "2026-11-23T19:35:41.075Z"
 }

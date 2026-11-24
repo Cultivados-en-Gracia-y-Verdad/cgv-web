@@ -93,7 +93,7 @@ await resetGenerated(contentRoot);
 await resetGenerated(imageRoot);
 await fs.writeFile(
   path.join(contentRoot, '_index.md'),
-  '---\ntitle: "Mensajeros CGV"\ntype: "mensajeros"\n---\n',
+  '---\ntitle: "Mensajeros CGV"\ntype: "mensajeros"\ndescription: "Conoce a los graduados de CGV que sirven a tiempo completo, sus ministerios y las formas de apoyarlos."\nbanner: "img/group4.jpeg"\nbanner_alt: "Mensajeros y estudiantes de CGV"\n---\n',
 );
 
 for (const profile of profiles) {

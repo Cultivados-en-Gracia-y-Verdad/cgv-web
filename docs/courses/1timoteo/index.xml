@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>1 Timoteo on Discipulado CGV</title>
-		<link>http://localhost:56349/courses/1timoteo/</link>
+		<link>http://localhost:1313/courses/1timoteo/</link>
 		<description>Recent content in 1 Timoteo on Discipulado CGV</description>
 		<generator>Hugo</generator>
 		<language>es</language>
@@ -10,6 +10,6 @@
 		
 		
 		
-			<atom:link href="http://localhost:56349/courses/1timoteo/index.xml" rel="self" type="application/rss+xml" />
+			<atom:link href="http://localhost:1313/courses/1timoteo/index.xml" rel="self" type="application/rss+xml" />
 	</channel>
 </rss>

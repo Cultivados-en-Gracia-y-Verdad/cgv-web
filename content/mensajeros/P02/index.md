@@ -15,7 +15,7 @@
   "fundingLabel": "Participa junto conmigo en el ministerio de discipulado; predicando el Evangelio de la Gracia de Dios, orando por mí, apoyando con ofrendar para el sustento económico.",
   "fundingUrl": "",
   "fundingImage": "/img/mensajeros/p02/ae353a2d-df8c-437a-8d2b-8e859c9ad1dd.png",
-  "heroImage": "/img/mensajeros/p02/0f259a34-ac25-494e-b597-623d5c31c193.png",
+  "heroImage": "/img/mensajeros/p02/ec3831dc-6886-4f87-8125-87cadb6f843c.png",
   "photos": [
     {
       "id": "IMG-de91081f",
@@ -53,5 +53,5 @@
       "credit": ""
     }
   ],
-  "publishedAt": "2026-11-24T16:52:54.970Z"
+  "publishedAt": "2026-11-24T17:09:07.358Z"
 }

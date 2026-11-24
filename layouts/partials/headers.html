@@ -57,8 +57,12 @@
 
 <!-- Facebook OpenGraph tags -->
 {{ $is_blog := and (eq .Type "blog") (eq .Kind "page") }}
+{{ $is_mensajero := and (eq .Type "mensajeros") (eq .Kind "page") }}
+{{ $share_url := .Permalink }}
+{{ if $is_mensajero }}{{ $public_origin := strings.TrimSuffix "/" (.Site.Params.public_site_origin | default "https://www.discipuladocgv.org") }}{{ $share_url = printf "%s%s" $public_origin .RelPermalink }}{{ end }}
 {{ $has_image :=  isset .Params "banner" }}
 {{ $image := cond $has_image .Params.banner (.Site.Params.default_sharing_image | default "img/sharing-default.png") }}
+{{ $sharing_image := $image | absURL }}
 {{ $is_valid_image := print "static/" $image | fileExists }}
 {{ if $is_valid_image }}
 {{ $image_ext := path.Ext $image }}
@@ -66,10 +70,12 @@
 <meta property="og:site_name" content="{{ .Site.Title }}">
 <meta property="og:title" content="{{ $title_plain }}">
 <meta property="og:type" content="{{ cond $is_blog "article" "website" }}">
-<meta property="og:url" content="{{ .Permalink }}" />
+<meta property="og:url" content="{{ $share_url }}" />
 <meta property="og:description" content="{{ $description_plain }}">
-<meta property="og:image" content="{{ $image | absURL }}">
-<meta property="og:image:type" content="image/{{ if eq $image_ext ".svg" }}svg+xml{{ else }}{{ trim $image_ext "." }}{{ end }}">
+{{ if $is_mensajero }}{{ $public_origin := strings.TrimSuffix "/" (.Site.Params.public_site_origin | default "https://www.discipuladocgv.org") }}{{ $sharing_image = printf "%s/%s?v=%s" $public_origin (strings.TrimPrefix "/" $image) (.Params.publishedAt | default "1" | urlquery) }}{{ end }}
+<meta property="og:image" content="{{ $sharing_image }}">
+<meta property="og:image:secure_url" content="{{ $sharing_image }}">
+<meta property="og:image:type" content="image/{{ if eq $image_ext ".svg" }}svg+xml{{ else if or (eq $image_ext ".jpg") (eq $image_ext ".jpeg") }}jpeg{{ else }}{{ trim $image_ext "." }}{{ end }}">
 {{ with .Params.banner_alt }}<meta property="og:image:alt" content="{{ . | markdownify | plainify }}">{{ end }}
 {{ $image_local :=  printf "/static/%s" $image}}
 {{ with (imageConfig $image_local) }}
@@ -90,11 +96,11 @@
 {{ end }}
 
 <!-- Twitter Card meta tags -->
-<meta name="twitter:card" content="summary{{ if (and $is_blog (and $has_image $is_valid_image)) }}_large_image{{ end }}">
+<meta name="twitter:card" content="summary{{ if (and (or $is_blog $is_mensajero) (and $has_image $is_valid_image)) }}_large_image{{ end }}">
 {{ with .Param "twitter_site" }}<meta name="twitter:site" content="@{{ . }}">{{ end }}
 <meta name="twitter:title" content="{{ $title_plain | truncate 70 }}">
 {{ if $is_valid_image }}
-<meta name="twitter:image" content="{{ $image | absURL }}">
+<meta name="twitter:image" content="{{ $sharing_image }}">
 {{ end }}
 <meta name="twitter:description" content="{{ $description_plain | truncate 200 }}">
 {{ with .Param "twitter_author" }}<meta name="twitter:creator" content="@{{ . }}">{{ end }}

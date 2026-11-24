@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import sharp from 'sharp';
 import { imagesDir, readSnapshot, websiteRoot } from './local-data-lib.mjs';
 
 const { data, manifest } = await readSnapshot();
@@ -124,6 +125,18 @@ for (const profile of profiles) {
 
   const heroPhoto = photos.find((photo) => photo.id === profile.heroPhotoId) || photos[0];
   const galleryPhotos = photos.filter((photo) => photo.id !== heroPhoto?.id);
+  const heroRecord = profile.photos.find((photo) => photo.id === profile.heroPhotoId) || profile.photos[0];
+  let socialImage = heroPhoto?.src || '';
+  if (heroRecord?.imageId) {
+    const info = requireImageInfo(heroRecord.imageId, profile.id);
+    const socialFilename = 'perfil-compartir.jpg';
+    await sharp(path.join(imagesDir, info.filename))
+      .rotate()
+      .resize(1200, 630, { fit: 'cover', position: 'attention' })
+      .jpeg({ quality: 76, mozjpeg: true })
+      .toFile(path.join(publicImageDir, socialFilename));
+    socialImage = `/img/mensajeros/${profile.id.toLowerCase()}/${socialFilename}`;
+  }
   let fundingImage = '';
   if (profile.fundingImageId) {
     const info = requireImageInfo(profile.fundingImageId, profile.id, 'imagen QR aprobada');
@@ -148,10 +161,15 @@ for (const profile of profiles) {
     commendingChurchUrl: profile.commendingChurchUrl || '',
     bio: profile.bio,
     summary: profile.summary,
+    description: profile.summary || profile.bio,
+    prayerRequests: (profile.prayerRequests || '').split(/\r?\n/).map((request) => request.trim().replace(/^[-*•]\s*/, '')).filter(Boolean),
     fundingLabel: profile.fundingLabel,
     fundingUrl: profile.fundingUrl,
     fundingImage,
     heroImage: heroPhoto?.src || '',
+    socialImage,
+    banner: socialImage.startsWith('/') ? socialImage.slice(1) : '',
+    banner_alt: `Foto principal de ${profile.name}`,
     photos: galleryPhotos,
     publishedAt: profile.publishedAt,
   };

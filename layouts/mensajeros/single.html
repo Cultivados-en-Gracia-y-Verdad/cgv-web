@@ -1,15 +1,10 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.Language.Locale }}">
-{{ $socialDescription := or .Params.summary .Params.bio }}
 {{ $publicOrigin := strings.TrimSuffix "/" (.Site.Params.public_site_origin | default "https://www.discipuladocgv.org") }}
 {{ $publicPageURL := printf "%s%s" $publicOrigin .RelPermalink }}
 <head>{{ partial "headers.html" . }}{{ partial "custom_headers.html" . }}
   <link rel="canonical" href="{{ $publicPageURL }}">
-  <meta property="og:type" content="profile">
-  <meta property="og:title" content="{{ .Title }} · Mensajeros CGV">
-  <meta property="og:description" content="{{ $socialDescription | plainify | truncate 180 }}">
-  <meta property="og:url" content="{{ $publicPageURL }}">
-  {{ with .Params.heroImage }}{{ $socialImage := printf "%s%s?v=%s" $publicOrigin . ($.Params.publishedAt | default "1" | urlquery) }}<meta property="og:image" content="{{ $socialImage }}"><meta property="og:image:secure_url" content="{{ $socialImage }}"><meta property="og:image:alt" content="Foto principal de {{ $.Title }}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{{ $socialImage }}">{{ end }}
+  {{ if not .Params.banner }}{{ with .Params.heroImage }}{{ $socialImage := printf "%s%s?v=%s" $publicOrigin . ($.Params.publishedAt | default "1" | urlquery) }}<meta property="og:image" content="{{ $socialImage }}"><meta property="og:image:secure_url" content="{{ $socialImage }}"><meta property="og:image:alt" content="Foto principal de {{ $.Title }}"><meta name="twitter:image" content="{{ $socialImage }}">{{ end }}{{ end }}
 </head>
 <body><div id="all">{{ partial "top.html" . }}{{ partial "nav.html" . }}
 {{ $photos := .Params.photos }}{{ $hero := .Params.heroImage }}{{ if not $hero }}{{ with $photos }}{{ $hero = (index . 0).src }}{{ end }}{{ end }}
@@ -23,7 +18,7 @@
     <div class="mensajero-main-column">
       <section id="historia" class="mensajero-section"><h2>Mi historia y llamado</h2><i class="section-rule"></i><p>{{ or .Params.summary .Params.bio }}</p>{{ with .Params.role }}<div class="mensajero-tags"><span>{{ . }}</span>{{ with $.Params.location }}<span>{{ . }}</span>{{ end }}</div>{{ end }}</section>
       {{ with $photos }}<section class="mensajero-section mensajero-gallery"><h2>El ministerio en imágenes</h2><i class="section-rule"></i><div>{{ range . }}<figure><a href="{{ .src | safeURL }}" target="_blank" rel="noopener noreferrer" aria-label="Ampliar fotografía"><img src="{{ .src | safeURL }}" alt="{{ or .caption "Fotografía del ministerio" }}" loading="lazy"></a><figcaption>{{ .caption }}{{ with .location }}<span>{{ . }}</span>{{ end }}</figcaption></figure>{{ end }}</div></section>{{ end }}
-      <section class="mensajero-prayer"><div aria-hidden="true">♡</div><span></span><section><h2>Oremos juntos</h2><ul><li>Por fruto duradero en este ministerio.</li><li>Por las personas, iglesias y familias que acompaña.</li></ul></section></section>
+      {{ with .Params.prayerRequests }}<section class="mensajero-prayer"><div aria-hidden="true">♡</div><span></span><section><h2>Oremos juntos</h2><ul>{{ range . }}<li>{{ . }}</li>{{ end }}</ul></section></section>{{ end }}
     </div>
     <aside class="mensajero-side-column">
       <section id="apoyar" class="mensajero-support-card"><h2>Sé parte de este ministerio</h2><i class="section-rule"></i><p>{{ or .Params.fundingLabel "Puedes acompañar este ministerio en oración y apoyar la continuidad de su trabajo." }}</p>{{ with .Params.fundingUrl }}<a href="{{ . | safeURL }}" target="_blank" rel="noopener noreferrer">Apoyar mi ministerio</a>{{ end }}{{ with .Params.fundingImage }}<h3>Escanea para dar</h3><img src="{{ . | safeURL }}" alt="Código QR para apoyar este ministerio"><small>También puedes usar el enlace de apoyo.</small>{{ end }}</section>

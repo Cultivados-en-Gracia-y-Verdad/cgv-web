@@ -8,6 +8,7 @@ import {fileURLToPath} from 'node:url';
 const appRoot=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const localOrigin='http://127.0.0.1:5173';
 let localServer=null;
+let serverStartTask=null;
 let syncTask=null;
 let pushTask=null;
 let prepareTask=null;
@@ -27,29 +28,45 @@ async function adminToken(){
  return createHmac('sha256',secret).update('admin').digest('base64url');
 }
 
-async function serverAvailable(){
- try{const response=await fetch(localOrigin,{redirect:'manual',signal:AbortSignal.timeout(1000)});return response.status>0;}catch{return false;}
+async function serverAvailable(token){
+ try{
+  const response=await fetch(localOrigin+'/api/report',{headers:{cookie:'informe_admin='+token,origin:localOrigin},redirect:'manual',signal:AbortSignal.timeout(1500)});
+  return response.ok;
+ }catch{return false;}
 }
 
-async function waitForServer(){
+async function waitForServer(token){
  for(let attempt=0;attempt<120;attempt++){
-  if(await serverAvailable())return;
+  if(await serverAvailable(token))return;
+  if(localServer?.exitCode!==null)throw new Error('No se pudo iniciar el servicio local. Comprueba que el puerto 5173 no esté ocupado por otra aplicación.');
   await new Promise(resolve=>setTimeout(resolve,500));
  }
  throw new Error('La aplicación local no pudo iniciarse en el puerto 5173.');
 }
 
 async function startServer(){
- if(await serverAvailable())return;
- localServer=spawn(process.execPath,[path.join(appRoot,'scripts/local-dev.mjs')],{
-  cwd:appRoot,
-  env:{...process.env,ELECTRON_RUN_AS_NODE:'1'},
-  stdio:['ignore','pipe','pipe'],
- });
- localServer.stdout.on('data',data=>process.stdout.write(data));
- localServer.stderr.on('data',data=>process.stderr.write(data));
- localServer.once('exit',code=>{if(code&&!app.isQuitting)dialog.showErrorBox('Mensajeros CGV','El servidor administrativo local se detuvo inesperadamente.');});
- await waitForServer();
+ if(serverStartTask)return serverStartTask;
+ serverStartTask=(async()=>{
+  const token=await adminToken();
+  if(await serverAvailable(token))return;
+  if(!localServer||localServer.exitCode!==null){
+   localServer=spawn(process.execPath,[path.join(appRoot,'scripts/local-dev.mjs'),'--strictPort'],{
+    cwd:appRoot,
+    env:{...process.env,ELECTRON_RUN_AS_NODE:'1'},
+    stdio:['ignore','pipe','pipe'],
+   });
+   localServer.stdout.on('data',data=>process.stdout.write(data));
+   localServer.stderr.on('data',data=>process.stderr.write(data));
+  }
+  await waitForServer(token);
+ })().finally(()=>{serverStartTask=null;});
+ return serverStartTask;
+}
+
+function scriptError(output,fallback){
+ const clean=String(output||'').replace(/\u001b\[[0-9;]*m/g,'');
+ const matches=[...clean.matchAll(/(?:\^\s*)?Error:\s*([^\n]+)/g)];
+ return matches.at(-1)?.[1]?.trim()||clean.trim().split('\n').filter(Boolean).at(-1)||fallback;
 }
 
 function runNodeScript(script,args=[]){
@@ -63,7 +80,7 @@ function runNodeScript(script,args=[]){
   child.stdout.on('data',data=>{output+=data;});
   child.stderr.on('data',data=>{error+=data;});
   child.once('error',reject);
-  child.once('exit',code=>code===0?resolve(output.trim()):reject(new Error((error||output||'No se pudo completar la sincronización.').trim())));
+  child.once('exit',code=>code===0?resolve(output.trim()):reject(new Error(scriptError(error||output,'No se pudo completar la sincronización.'))));
  });
 }
 
@@ -84,7 +101,7 @@ function runSystemNode(script,args=[]){
 
 async function syncPull(){
  if(syncTask)return syncTask;
- syncTask=runNodeScript('scripts/sync-pull.mjs')
+ syncTask=(async()=>{await startServer();return runNodeScript('scripts/sync-pull.mjs');})()
   .then(message=>({ok:true,message:message||'Las respuestas están actualizadas.'}))
   .catch(error=>({ok:false,message:error instanceof Error?error.message:'No se pudieron traer las respuestas.'}))
   .finally(()=>{syncTask=null;});
@@ -94,6 +111,7 @@ async function syncPull(){
 async function syncPush(){
  if(pushTask)return pushTask;
  pushTask=(async()=>{
+  await startServer();
   try{return await runNodeScript('scripts/sync-push.mjs',['--confirm']);}
   catch(error){
    const message=error instanceof Error?error.message:String(error);
@@ -111,6 +129,7 @@ async function syncPush(){
 async function prepareSite(){
  if(prepareTask)return prepareTask;
  prepareTask=(async()=>{
+  await startServer();
   await runNodeScript('scripts/export-local-data.mjs');
   const message=await runNodeScript('scripts/generate-public-site.mjs');
   return {ok:true,message:message||'Archivos públicos preparados.'};

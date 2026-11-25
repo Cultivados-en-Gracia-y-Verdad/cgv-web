@@ -61,7 +61,7 @@
 {{ $share_url := .Permalink }}
 {{ if $is_mensajero }}{{ $public_origin := strings.TrimSuffix "/" (.Site.Params.public_site_origin | default "https://www.discipuladocgv.org") }}{{ $share_url = printf "%s%s" $public_origin .RelPermalink }}{{ end }}
 {{ $has_image :=  isset .Params "banner" }}
-{{ $image := cond $has_image .Params.banner (.Site.Params.default_sharing_image | default "img/sharing-default.png") }}
+{{ $image := cond $has_image .Params.banner (.Site.Params.default_sharing_image | default .Site.Params.logo | default "img/cgv-logo.jpg") }}
 {{ $sharing_image := $image | absURL }}
 {{ $is_valid_image := print "static/" $image | fileExists }}
 {{ if $is_valid_image }}
@@ -76,7 +76,7 @@
 <meta property="og:image" content="{{ $sharing_image }}">
 <meta property="og:image:secure_url" content="{{ $sharing_image }}">
 <meta property="og:image:type" content="image/{{ if eq $image_ext ".svg" }}svg+xml{{ else if or (eq $image_ext ".jpg") (eq $image_ext ".jpeg") }}jpeg{{ else }}{{ trim $image_ext "." }}{{ end }}">
-{{ with .Params.banner_alt }}<meta property="og:image:alt" content="{{ . | markdownify | plainify }}">{{ end }}
+<meta property="og:image:alt" content="{{ .Params.banner_alt | default "Logo de Cultivados en Gracia y Verdad" | markdownify | plainify }}">
 {{ $image_local :=  printf "/static/%s" $image}}
 {{ with (imageConfig $image_local) }}
   <meta property="og:image:width" content="{{ .Width }}">

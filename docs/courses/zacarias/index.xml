@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>Zacarias - Y será Jehová por rey on Discipulado CGV</title>
-		<link>http://localhost:56349/courses/zacarias/</link>
+		<link>https://discipuladocgv.org/courses/zacarias/</link>
 		<description>Recent content in Zacarias - Y será Jehová por rey on Discipulado CGV</description>
 		<generator>Hugo</generator>
 		<language>es</language>
@@ -10,6 +10,6 @@
 		
 		
 		
-			<atom:link href="http://localhost:56349/courses/zacarias/index.xml" rel="self" type="application/rss+xml" />
+			<atom:link href="https://discipuladocgv.org/courses/zacarias/index.xml" rel="self" type="application/rss+xml" />
 	</channel>
 </rss>

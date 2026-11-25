@@ -8,7 +8,7 @@
 .cgv-eyebrow {
   text-transform: uppercase;
   letter-spacing: .08em;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   color: #777;
   margin-bottom: 8px;
@@ -97,6 +97,7 @@
 
 .cgv-course-card-body p {
   color: #555;
+  font-size: 18px;
   line-height: 1.55;
 }
 
@@ -170,25 +171,61 @@
     font-size: 19px;
   }
 }
+.cgv-home {
+  font-size: 18px;
+}
+
 .cgv-home-hero {
-  padding: 80px 0 70px;
-  background: #f7f5f0;
+  padding: 54px 0 62px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f8f4ea 0%, #f1f7f1 100%);
+}
+
+.cgv-hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr);
+  gap: 64px;
+  align-items: center;
+}
+
+.cgv-hero-copy {
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .cgv-home-hero h1 {
-  max-width: 860px;
+  max-width: 720px;
   margin: 0 0 24px;
-  font-size: 56px;
-  line-height: 1.08;
+  font-size: 58px;
+  line-height: 1.05;
   font-weight: 800;
   color: #222;
 }
 
 .cgv-home-lead {
-  max-width: 760px;
+  max-width: 680px;
   font-size: 23px;
-  line-height: 1.55;
+  line-height: 1.52;
   color: #444;
+}
+
+.cgv-hero-photo {
+  grid-column: 2;
+  grid-row: 1;
+  width: 100%;
+  max-width: 360px;
+  margin: 0;
+  justify-self: end;
+}
+
+.cgv-hero-photo img {
+  display: block;
+  width: 100%;
+  height: 280px;
+  border-radius: 18px;
+  box-shadow: 0 14px 34px rgba(26, 42, 32, .14);
+  object-fit: cover;
+  object-position: center;
 }
 
 .cgv-home-actions {
@@ -198,8 +235,152 @@
   margin-top: 32px;
 }
 
+.cgv-home-actions .btn,
+.cgv-enrollment-action .btn {
+  padding: 13px 24px;
+  border-radius: 999px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.cgv-enrollment {
+  padding: 34px 0 0;
+}
+
+.cgv-enrollment-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 42px;
+  align-items: center;
+  padding: 30px 36px;
+  border-radius: 16px;
+  background: #1f3d2b;
+  box-shadow: 0 12px 28px rgba(23, 50, 34, .15);
+  color: #fff;
+}
+
+.cgv-enrollment-copy .cgv-eyebrow {
+  margin-bottom: 6px;
+  color: #cfe1d5;
+}
+
+.cgv-enrollment-copy h2 {
+  margin: 0 0 8px;
+  color: #fff;
+  font-size: 30px;
+  line-height: 1.18;
+}
+
+.cgv-enrollment-copy p:last-child {
+  max-width: 720px;
+  margin: 0;
+  color: #e0ebe4;
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+.cgv-enrollment-action {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cgv-enrollment-action .btn {
+  white-space: nowrap;
+  background: #fff;
+  color: #1f3d2b;
+  border-color: #fff;
+}
+
+.cgv-text-link {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.cgv-text-link:hover,
+.cgv-text-link:focus {
+  color: #f2b84b;
+}
+
 .cgv-home-section {
-  padding: 60px 0;
+  padding: 82px 0;
+}
+
+.cgv-community-section {
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+
+.cgv-community-heading {
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  column-gap: 60px;
+  align-items: end;
+  margin-bottom: 30px;
+}
+
+.cgv-community-heading .cgv-eyebrow {
+  grid-column: 1 / -1;
+}
+
+.cgv-section-heading h2,
+.cgv-community-heading h2 {
+  margin: 0;
+  color: #222;
+  font-size: 42px;
+  line-height: 1.15;
+}
+
+.cgv-section-heading > p:last-child,
+.cgv-community-heading > p:last-child {
+  margin: 0;
+  color: #555;
+  font-size: 20px;
+  line-height: 1.65;
+}
+
+.cgv-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.cgv-photo-grid figure {
+  margin: 0;
+  background: transparent;
+}
+
+.cgv-photo-grid .cgv-photo-feature {
+  grid-row: auto;
+}
+
+.cgv-photo-grid img {
+  display: block;
+  width: 100%;
+  height: 170px;
+  border-radius: 12px;
+  transition: transform .4s ease;
+  object-fit: cover;
+}
+
+.cgv-photo-grid figure:hover img {
+  transform: scale(1.02);
+}
+
+.cgv-photo-grid figure:nth-child(3) img {
+  object-position: center 12%;
+}
+
+.cgv-photo-grid figcaption {
+  padding: 11px 2px 0;
+  color: #334139;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .cgv-home-grid.three {
@@ -222,7 +403,7 @@
 }
 
 .cgv-home-card p {
-  font-size: 17px;
+  font-size: 19px;
   line-height: 1.65;
   color: #555;
 }
@@ -239,6 +420,7 @@
 
 .cgv-home-highlight h2 {
   margin-top: 0;
+  color: #fff;
   font-size: 40px;
   line-height: 1.2;
 }
@@ -251,7 +433,7 @@
 }
 
 .cgv-home-split p {
-  font-size: 20px;
+  font-size: 21px;
   line-height: 1.65;
 }
 
@@ -279,21 +461,82 @@
 .cgv-home-radio-card p:last-child {
   margin-bottom: 0;
   color: #405047;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.6;
 }
 
 @media (max-width: 767px) {
   .cgv-home-hero {
-    padding: 50px 0;
+    padding: 46px 0 68px;
+  }
+
+  .cgv-hero-layout {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .cgv-hero-copy,
+  .cgv-hero-photo {
+    grid-column: 1;
+    grid-row: auto;
   }
 
   .cgv-home-hero h1 {
-    font-size: 38px;
+    font-size: 44px;
   }
 
   .cgv-home-lead {
-    font-size: 19px;
+    font-size: 21px;
+  }
+
+  .cgv-hero-photo img {
+    height: 220px;
+    border-radius: 14px;
+  }
+
+  .cgv-enrollment {
+    padding-top: 24px;
+  }
+
+  .cgv-enrollment-card {
+    grid-template-columns: 1fr;
+    padding: 28px;
+    text-align: center;
+  }
+
+  .cgv-enrollment-copy h2 {
+    font-size: 30px;
+  }
+
+  .cgv-enrollment-copy p:last-child {
+    font-size: 18px;
+  }
+
+  .cgv-community-section {
+    padding-top: 76px;
+  }
+
+  .cgv-community-heading {
+    display: block;
+  }
+
+  .cgv-community-heading h2,
+  .cgv-section-heading h2 {
+    margin-bottom: 18px;
+    font-size: 34px;
+  }
+
+  .cgv-photo-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .cgv-photo-grid .cgv-photo-feature {
+    grid-row: auto;
+  }
+
+  .cgv-photo-grid img {
+    height: 190px;
   }
 
   .cgv-home-radio-card {
@@ -309,6 +552,31 @@
 
   .cgv-home-highlight h2 {
     font-size: 32px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1100px) {
+  .cgv-hero-layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 38px;
+  }
+
+  .cgv-home-hero h1 {
+    font-size: 50px;
+  }
+
+  .cgv-hero-photo img {
+    height: 260px;
+  }
+
+  .cgv-enrollment-card {
+    grid-template-columns: auto 1fr;
+  }
+
+  .cgv-enrollment-action {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    justify-content: center;
   }
 }
 .cgv-download-note {

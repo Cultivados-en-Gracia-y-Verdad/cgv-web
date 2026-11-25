@@ -17,11 +17,14 @@ ignoreFiles = ['content[/\\]obreros[/\\]field-report[/\\]']
   [[module.mounts]]
     source = "content"
     target = "content"
-    files = ["! obreros/**"]
+    files = ["! obreros/**", "! images/**"]
   [[module.mounts]]
     source = "static"
     target = "static"
     files = ["! img/mensajeros/.generated-by-field-report"]
+  [[module.mounts]]
+    source = "content/images"
+    target = "assets/images"
  
 pluralizelisttitles = false
 enableInlineShortcodes = true
